@@ -5,7 +5,7 @@ export const events = sqliteTable("events", {
         .notNull()
         .primaryKey()
         .$defaultFn(() => crypto.randomUUID()),
-    title: text("title", { length: 255 }),
-    description: text("description", { length: 10000 }),
+    title: text("title", { length: 255 }).notNull(),
+    description: text("description", { length: 10000 }).notNull(),
     date: int("date", { mode: "timestamp" }).notNull()
 })
