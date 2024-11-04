@@ -1,8 +1,11 @@
 import { Router } from "express";
+import { db } from "../db/db";
+import { events } from "../db/schema";
 
 export const eventRoutes = Router();
 
 eventRoutes.get("", (req, res) => {
-    res.json([])
+    const items = db.select().from(events);
+    res.json(items)
 })
 
