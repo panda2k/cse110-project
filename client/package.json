@@ -20,6 +20,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll --testMatch **/src/**/*.test.tsx",
+    "ci-test": "CI=true react-scripts test --testMatch **/src/**/*.test.tsx",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
