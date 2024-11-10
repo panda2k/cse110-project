@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/MyEventsList.css';
+import '../../styles/MyEventsList.css';
 import EditEvent from './EditEvent';
 
 interface Event {
