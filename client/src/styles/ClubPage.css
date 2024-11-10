@@ -1,0 +1,42 @@
+.App {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.app-container {
+    display: flex;
+}
+
+.App-header {
+    position: relative;
+}
+
+.toggle-button {
+    position: fixed;
+    /* Fixed position at the top-right corner */
+    top: 20px;
+    right: 20px;
+    background-color: #007bff;
+    /* Blue background */
+    border: none;
+    color: white;
+    /* White text color */
+    font-size: 24px;
+    /* Larger font size */
+    cursor: pointer;
+    padding: 10px 15px;
+    /* Padding for a larger clickable area */
+    border-radius: 5px;
+    /* Rounded corners */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    /* Add shadow for clarity */
+    z-index: 1001;
+    /* Ensure it’s above other elements */
+}
+
+.toggle-button:hover {
+    background-color: #0056b3;
+    /* Darker blue on hover */
+}

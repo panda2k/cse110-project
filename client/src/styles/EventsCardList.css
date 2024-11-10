@@ -1,0 +1,58 @@
+.event-card-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.event-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.event-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+}
+
+.card-content {
+    padding: 16px;
+    color: #333;
+}
+
+h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.5em;
+}
+
+.rsvp-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 0 0 8px 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.rsvp-button:hover {
+    background-color: #0056b3;
+}
+
+/* Style for the active RSVP state (green) */
+.rsvp-button.rsvp-active {
+    background-color: #28a745;
+}

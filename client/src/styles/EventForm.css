@@ -1,0 +1,55 @@
+.event-form-card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-right: 30px;
+    width: 400px;
+    border: 1px solid #e0e0e0;
+}
+
+.event-form-card h2 {
+    margin-bottom: 20px;
+}
+
+.event-form-card div {
+    margin-bottom: 15px;
+}
+
+.event-form-card label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.event-form-card input,
+.event-form-card textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.event-form-card button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.event-form-card button:hover {
+    background-color: #0056b3;
+}
+
+.event-form-card input,
+.event-form-card textarea {
+    width: 90%;
+    /* or any percentage you prefer */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: block;
+    /* Ensure the margin works as intended */
+}
