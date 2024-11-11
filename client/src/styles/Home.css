@@ -1,0 +1,186 @@
+.body {
+    padding-top: 100px;
+    color: #333;
+    align-items: flex-start;
+    background-color: #f4f4f4;
+}
+#Navigationbar {
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    box-sizing: border-box;
+}
+
+.Searchbar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px; 
+}
+
+#Navigationbar img {
+    max-width: 65px;
+    max-height: 65px;
+    margin-right: 15px;
+}
+.Message-button {
+    width: 50px;
+    height: 35px;
+    background-image: url(https://cdn.pixabay.com/photo/2016/03/31/14/48/letter-1292826_1280.png);/* Change this to our image of a message link this is just a placeholder */
+    background-size: 50px;
+    background-position: top;
+    margin-left: auto;
+    position: top;
+    border: none; 
+    cursor: pointer;
+}
+
+.image-button:hover {
+    opacity: 0.9;
+    box-shadow: black;
+}
+
+
+.search-input {
+    flex-grow: 1;
+    max-width: 500px;
+    height: 35px;
+    padding: 0 15px;
+    border: none;
+    border-radius: 20px;
+    background-color: #f0f0f0;
+    font-size: 16px;
+    outline: none;
+}
+
+ul.nav-links {
+    display: flex;
+    gap: 15px; /* Space between links */
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+li a {
+    font-size: 18px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+li a:hover {
+    text-decoration: underline;
+    color: gray;
+}
+
+
+/*This part from here is the css for the grid containing the events*/
+.Eventsgrid {
+    display: grid;
+    flex-wrap: wrap;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+.events-list {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+    text-align: left;
+    flex-direction: column;
+}
+.events-list p {
+    font-size: 14px;
+    color: black;
+    overflow-wrap:break-word;
+    white-space: normal;
+
+}
+  .app-container{
+    grid-template-columns: 1fr;
+  }
+  .events-list:hover {
+    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3); /* Slightly larger shadow on hover */
+    transform: rotate(0deg); /* Straightens on hover for emphasis */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.events-list::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px; /* Adjust size for curl */
+    height: 20px;
+    background: #f4f4f4; /* Matches the background color */
+    clip-path: polygon(0 100%, 100% 0, 100% 100%); /* Creates a triangle shape */
+    box-shadow: -2px -2px 4px rgba(0, 0, 0, 0.1); /* Adds shadow for a realistic effect */
+    transition: transform 0.2s ease;
+}
+
+.events-list h2 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+/*This part from here contains the popup from when we click on the post*/
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+.popup-content{
+    background: #333;
+    color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+    overflow-wrap: break-word;
+}
+.close-button{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+.register-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+}
+.register-button:hover {
+    background-color: #0056b3;
+}
