@@ -1,0 +1,7 @@
+.entryContainer {
+    display: flex;
+}
+
+.entryElement {
+    flex-grow:1;
+}
