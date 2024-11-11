@@ -9,6 +9,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 function App() {
   return (
 <<<<<<< HEAD
+<<<<<<< HEAD
     <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
       <div className="App">
         <header className="App-header">
@@ -25,6 +26,9 @@ function App() {
       </div>
     </GoogleOAuthProvider>
 =======
+=======
+
+>>>>>>> 17e5de94a9103904552036d60193b1a66c70bad1
     <div className="App">
       <header className="App-header">
         <nav>
@@ -36,7 +40,11 @@ function App() {
         </Routes>
       </header>
     </div>
+<<<<<<< HEAD
 >>>>>>> main
+=======
+
+>>>>>>> 17e5de94a9103904552036d60193b1a66c70bad1
   );
 }
 

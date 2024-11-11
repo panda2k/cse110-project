@@ -1,3 +1,36 @@
+# Front End Filesystem Structure
+
+The front end has several folders to promote organization and better readability for new developers. Below are brief explanations of how files should be organized between these folders.
+
+## Assets
+Includes images (svg, png, jpg, etc.) which are used for styling the website views.
+
+## Components 
+Contains lower level React components that make up parts of a single page (think buttons, a single event flyer, etc). If a component acts as the majority of an entire page, think about renaming it to a view and moving it to the views folder.
+
+## Constants 
+Contains static, important values that will be used throughout the application.
+
+## Styles
+Contains any *.css files.
+
+## Tests
+Contains any *.test.tsx files.
+
+## Types
+Contains any newly defined TSX types.
+
+## Views
+Contains React components that are meant to span an entire page, or close to an entire page. (think login view, bulletin board view, messages view, etc.)
+
+# CI/CD Workflow
+
+Once you have finished implementing a feature, whether it be a subtask or a user story, write some related tests to make sure that the component renders correctly. For better organization, put these test files in the tests directory. 
+
+*It is required to put the suffix ".test.tsx"* after any test you write so npm test will detect and run those tests. If you do not include this suffix, the CI script will not run your test, and will potentially give a false positive.
+
+Once your tests pass, create a pull request to merge your branch with the main branch. Wait for Github to tell you the tests pass, and then merge your branch into the main branch. For traceability, write a comment mentioning the user story or task that your pull request solves. 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
