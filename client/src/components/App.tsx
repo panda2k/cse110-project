@@ -10,6 +10,7 @@ function App() {
       <header className="App-header">
         <nav>
             <Link to="/">Home</Link> <Link to="/test">Test</Link>
+            <Link to="/clubrsvp">Club test</Link>
         </nav>
         <Routes>
             {/* To add a view to the website, go to the routes.tsx file in the constants directory, and add an entry to the array defined in the file.*/}
