@@ -14,7 +14,7 @@ messageRoutes.get("", async (req, res) => {
     const authorId = "";
     const items = (await db.select().from(messages)
         .where(or(
-            eq(messages.authorId, authorId), 
+            eq(messages.authorId, authorId),
             eq(messages.recipientId, authorId)
         ))
         .orderBy(desc(messages.date)))
