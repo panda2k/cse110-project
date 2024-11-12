@@ -29,7 +29,7 @@ test('Component renders all users passed in', () => {
         </div>  
     </div>);
 	for (const user of userList) {
-        const userEntry = screen.getByText("Username: " + user.userName);
+        const userEntry = screen.getByText(user.userName);
         expect(userEntry).toBeInTheDocument();
     }
     const rsvpCount = screen.getByText("Total RSVP: " + userList.length.toString());
@@ -46,10 +46,6 @@ test('Component renders nothing when no user exist', () => {
             ))}
         </div>  
     </div>);
-	for (const user of userList) {
-        const userEntry = screen.getByText("Username: " + user.userName);
-        expect(userEntry).toBeInTheDocument();
-    }
     const rsvpCount = screen.getByText("Total RSVP: " + userList.length.toString());
     expect(rsvpCount).toBeInTheDocument();
 });
