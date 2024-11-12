@@ -8,10 +8,10 @@ const UserListEntry = (user : User) => {
     return (
         <div className="entryContainer">
             <div className="entryElement">
-                Name: {user.firstName} {user.lastName}
+                {user.firstName} {user.lastName}
             </div>
             <div className="entryElement">
-                Username: {user.userName}
+                {user.userName}
             </div>
         </div>
     );

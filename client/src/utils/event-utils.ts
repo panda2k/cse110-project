@@ -3,9 +3,16 @@ import { ClubEvent } from "../types/Event";
 import { User } from "../types/User";
 
 export const getRSVP = async (event: ClubEvent): Promise<User[]> => { 
-	const response = await fetch(`${API_BASE_URL}/rsvp/${event.id}`	);
-	if (!response.ok) {
-    	throw new Error("Failed to get RSVPs");
+	try {
+		const response = await fetch(`${API_BASE_URL}/rsvp/${event.id}`	);
+		if (!response.ok) {
+			throw new Error("Failed to get RSVPs");
+		}
+		return response.json();
+	} catch (error) {
+		const empty : User[] = [];
+		console.log("failed to fetch RSVPs");
+		return empty;
 	}
-	return response.json();
+
 };

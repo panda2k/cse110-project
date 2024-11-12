@@ -1,7 +1,10 @@
 .entryContainer {
     display: flex;
+    gap:2px;
 }
 
 .entryElement {
-    flex-grow:1;
+    width:50%;
+    padding-bottom: 2px;
+    background-color: #DBDBDB;
 }

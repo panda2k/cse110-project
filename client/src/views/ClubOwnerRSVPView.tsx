@@ -9,23 +9,30 @@ const ClubRSVPView: React.FC<ClubEvent> = ({id}): JSX.Element => {
 
     const arr : User[] = [];
     const [userList, setUserList] = useState(arr);
+    const [eventId, setEventId] = useState(""); // TEMPORARY variable for demonstration purposes.
 
-    const getEventRSVP = async () => {
+    const getEventRSVP = async (id : string) => {
         const users = await getRSVP({id});
         setUserList(users);
     }
 
     useEffect(() => {
-        getEventRSVP();
-    }, []);
+        getEventRSVP(eventId);
+    }, [eventId]);
 
     return (
-        <div>
+        <div className="clubOwnerContainer">
+            <form>
+                <label htmlFor="eventId">Current Event Id: </label>
+                <input value={eventId} id="eventId" type="text" onChange={(event) => {setEventId(event.target.value)}} />   
+            </form>
             <div>Total RSVP: {userList.length}</div>
             <div className="userList">
+                <UserListEntry firstName="Full Name" lastName="" userId="" userName="Username"/>
                 {userList.map((user) => (
                     <UserListEntry firstName={user.firstName} lastName={user.lastName} userId={user.userId} userName={user.userName}/>
                 ))}
+                <div style={{ height: "24px", width:"100%", borderBottomLeftRadius: "8px", borderBottomRightRadius: "8px", backgroundColor: "#DBDBDB"}} />
             </div>  
         </div>
     );
