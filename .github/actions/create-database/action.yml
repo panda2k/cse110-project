@@ -29,11 +29,12 @@ runs:
       shell: bash
       run: |
         DATABASE_NAME=$(echo "${{ github.ref_name }}" |  sed 's|/|-|g')
-        RESPONSE=$(curl -s -f -X POST \
+        RESPONSE=$(curl -s -X POST \
           -H "Authorization: Bearer ${{ inputs.api_token }}" \
           -H "Content-Type: application/json" \
           -d '{"name": "$DATABASE_NAME", "group": "${{ inputs.group_name }}" }' \
           "https://api.turso.tech/v1/organizations/${{ inputs.organization_name }}/databases")
+        echo $RESPONSE
 
         if [ $? -ne 0 ]; then
           echo "Could not create database"
