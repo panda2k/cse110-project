@@ -22,6 +22,7 @@ jobs: # the things being executed
     steps:
       - uses: actions/checkout@v4 # using version 4 of Actions
       - name: Create Database
+        id: create-database
         uses: ./.github/actions/create-database
         with:
           organization_name: ${{ secrets.TURSO_ORGANIZATION_NAME }}
