@@ -39,6 +39,8 @@ runs:
           exit 1
         fi
 
+        echo $RESPONSE
+
         HOSTNAME=$(echo $RESPONSE | jq -r '.database.Hostname')
         if [ -z "$HOSTNAME" ]; then
           echo "Hostname not found in response"
