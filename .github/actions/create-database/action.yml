@@ -37,7 +37,7 @@ runs:
           echo "Could not fetch database"
           exit 1
         fi
-
+        echo $RESPONSE
         GROUP_NAME=$(echo $RESPONSE | jq -r '.database.group')
         if [ -z "$GROUP_NAME" ]; then
           echo "Group name not found in response"
