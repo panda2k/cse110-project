@@ -25,6 +25,7 @@ jobs: # the things being executed
         uses: ./.github/actions/create-database
         with:
           organization_name: ${{ secrets.TURSO_ORGANIZATION_NAME }}
+          group_name: ${{ secrets.TURSO_GROUP_NAME }}
           api_token: ${{ secrets.TURSO_API_TOKEN }}
       - name: Install Dependencies
         run: npm install
