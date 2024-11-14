@@ -74,4 +74,3 @@ runs:
         fi
 
         echo "token=$TOKEN" >> $GITHUB_OUTPUT
-        cat $GITHUB_OUTPUT

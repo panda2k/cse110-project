@@ -32,7 +32,7 @@ jobs: # the things being executed
         run: npm install
         working-directory: server 
       - name: Unit Test
-        run: echo $DATABASE_URL && echo $DATABASE_AUTH_TOKEN # the actual testing line
+        run: echo "url = $DATABASE_URL\ntoken = $DATABASE_AUTH_TOKEN" # the actual testing line
         working-directory: server 
         env:
           DATABASE_URL: ${{ steps.create-database.outputs.hostname }}
