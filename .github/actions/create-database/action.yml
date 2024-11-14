@@ -24,27 +24,6 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Get Group
-      id: get-group
-      if: inputs.group_name == ''
-      shell: bash
-      run: |
-        RESPONSE=$(curl -s -f \
-          -H "Authorization: Bearer ${{ inputs.api_token }}" \
-          "https://api.turso.tech/v1/organizations/${{ inputs.organization_name }}/databases/${{ inputs.existing_database_name }}")
-
-        if [ $? -ne 0 ]; then
-          echo "Could not fetch database"
-          exit 1
-        fi
-        echo $RESPONSE
-        GROUP_NAME=$(echo $RESPONSE | jq -r '.database.group')
-        if [ -z "$GROUP_NAME" ]; then
-          echo "Group name not found in response"
-          exit 1
-        fi
-
-        echo "GROUP_NAME=$GROUP_NAME" >> $GITHUB_ENV
     - name: Create Database
       id: create-database
       shell: bash
