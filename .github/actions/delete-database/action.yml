@@ -17,6 +17,7 @@ runs:
       id: delete-database
       shell: bash
       run: |
+        DATABASE_NAME = $(echo "${{ github.ref_name }}" |  sed 's|/|-|g')
         if [ -z "${{ inputs.group_name }}" ]; then
           GROUP_TO_USE=$GROUP_NAME
         else
@@ -26,7 +27,7 @@ runs:
         RESPONSE=$(curl -s -f -X DELETE \
           -H "Authorization: Bearer ${{ inputs.api_token }}" \
           -H "Content-Type: application/json" \
-          "https://api.turso.tech/v1/organizations/${{ inputs.organization_name }}/databases/${{ github.ref_name }}")
+          "https://api.turso.tech/v1/organizations/${{ inputs.organization_name }}/databases/$DATABASE_NAME")
 
         if [ $? -ne 0 ]; then
           echo "Could not delete database"
