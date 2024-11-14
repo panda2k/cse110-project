@@ -19,7 +19,7 @@ outputs:
     value: ${{ steps.create-database.outputs.hostname }}
   token:
     description: "The database token"
-    value: ${{ steps.create-database.outputs.token }}
+    value: ${{ steps.create-token.outputs.token }}
 
 runs:
   using: "composite"
