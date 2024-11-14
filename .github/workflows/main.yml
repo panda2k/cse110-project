@@ -22,7 +22,7 @@ jobs: # the things being executed
     steps:
       - uses: actions/checkout@v4 # using version 4 of Actions
       - name: Create Database
-        uses: ./.github/actions/create-database.yml
+        uses: ./.github/actions/create-database
         with:
           organization_name: ${{ secrets.TURSO_ORGANIZATION_NAME }}
           api_token: ${{ secrets.TURSO_API_TOKEN }}
@@ -36,7 +36,7 @@ jobs: # the things being executed
           DATABASE_URL: ${{ steps.create-database.outputs.hostname }}
           DATABASE_AUTH_TOKEN: ${{ steps.create-database.outputs.token }}
       - name: Delete Database
-        uses: ./.github/actions/delete-database.yml
+        uses: ./.github/actions/delete-database
         with:
           organization_name: ${{ secrets.TURSO_ORGANIZATION_NAME }}
           api_token: ${{ secrets.TURSO_API_TOKEN }}
