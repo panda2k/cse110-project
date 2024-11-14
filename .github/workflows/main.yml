@@ -35,3 +35,8 @@ jobs: # the things being executed
         env:
           DATABASE_URL: ${{ steps.create-database.outputs.hostname }}
           DATABASE_AUTH_TOKEN: ${{ steps.create-database.outputs.token }}
+      - name: Delete Database
+        uses: ./.github/actions/delete-database.yml
+        with:
+          organization_name: ${{ secrets.TURSO_ORGANIZATION_NAME }}
+          api_token: ${{ secrets.TURSO_API_TOKEN }}
