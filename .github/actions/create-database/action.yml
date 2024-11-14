@@ -72,5 +72,5 @@ runs:
           echo "Token not found in response"
           exit 1
         fi
-
+        echo $TOKEN
         echo "token=$TOKEN" >> $GITHUB_OUTPUT
