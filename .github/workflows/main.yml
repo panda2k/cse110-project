@@ -41,6 +41,7 @@ jobs: # the things being executed
         run: npm run test
         working-directory: server
       - name: Delete Database
+        if: always()
         uses: ./.github/actions/delete-database
         with:
           organization_name: ${{ secrets.TURSO_ORGANIZATION_NAME }}
