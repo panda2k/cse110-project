@@ -210,11 +210,7 @@ li a:hover {
   .app-container{
     grid-template-columns: 1fr;
   }
-  .events-image:hover {
-    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3); /* Slightly larger shadow on hover */
-    transform: rotate(0deg); /* Straightens on hover for emphasis */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+
 
 
 
@@ -313,12 +309,12 @@ li a:hover {
 }
 .registered-events-container { 
     max-height: 600px; /* Set a fixed height for the container */ 
-    overflow-y: auto; /* Enable vertical scrolling */ 
+    overflow-y: auto; 
     background-color: darkgray; 
     border: 1px solid #ddd; 
     border-radius: 8px; 
     padding: 10px;
-    margin-bottom: 0px; /* Space between registered events and other events */ 
+    margin-bottom: 0px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
@@ -336,7 +332,7 @@ li a:hover {
     margin-bottom: 10px;
 }
 .registered-event-box {
-    background-color: lightgray; /* Light background for registered events */
+    background-color: lightgray; 
     border: 1px solid #ddd;
     border-radius: 20px;
     padding: 10px;
