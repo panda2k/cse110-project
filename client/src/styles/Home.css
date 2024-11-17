@@ -1,9 +1,99 @@
 .body {
-    padding-top: 100px;
+    padding-top: 120px;
     color: #333;
     align-items: flex-start;
     background-color: #f4f4f4;
 }
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.welcome-popup {
+    background: #f9f9f9;
+    color: #333;
+    padding: 20px;
+    border-radius: 15px;
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-popup h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.welcome-popup p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.interests-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.interest-button {
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.interest-button:hover {
+    background-color: #d0d0d0;
+}
+.interest-button.selected {
+    background-color: #28a745;
+    color: white;
+}
+
+.confirm-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.confirm-button:hover {
+    background-color: #0056b3;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    color: #333;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+}
+{/*this is for the navigation bar*/}
 #Navigationbar {
 
     display: flex;
@@ -34,7 +124,7 @@
 .Message-button {
     width: 50px;
     height: 35px;
-    background-image: url(https://cdn.pixabay.com/photo/2016/03/31/14/48/letter-1292826_1280.png);/* Change this to our image of a message link this is just a placeholder */
+    background-image: url(https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3383.jpg?w=826);/* Change this to our image of a message link this is just a placeholder */
     background-size: 50px;
     background-position: top;
     margin-left: auto;
@@ -89,54 +179,45 @@ li a:hover {
     display: grid;
     flex-wrap: wrap;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    gap: 30px;
     padding: 20px;
 }
 .events-list {
-    background: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
     position: relative;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
     overflow: hidden;
-    text-align: left;
-    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;
+    
 }
-.events-list p {
-    font-size: 14px;
-    color: black;
-    overflow-wrap:break-word;
-    white-space: normal;
-
+.event-image {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.events-image:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
 }
   .app-container{
     grid-template-columns: 1fr;
   }
-  .events-list:hover {
+  .events-image:hover {
     box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3); /* Slightly larger shadow on hover */
     transform: rotate(0deg); /* Straightens on hover for emphasis */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.events-list::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 20px; /* Adjust size for curl */
-    height: 20px;
-    background: #f4f4f4; /* Matches the background color */
-    clip-path: polygon(0 100%, 100% 0, 100% 100%); /* Creates a triangle shape */
-    box-shadow: -2px -2px 4px rgba(0, 0, 0, 0.1); /* Adds shadow for a realistic effect */
-    transition: transform 0.2s ease;
-}
 
-.events-list h2 {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #333;
-}
+
+
 /*This part from here contains the popup from when we click on the post*/
 .popup-overlay {
     position: fixed;
@@ -151,22 +232,61 @@ li a:hover {
     z-index: 100;
 }
 .popup-content{
-    background: #333;
-    color: #fff;
+    background: #f9f9f9;
+    color: #333;
     padding: 20px;
-    border-radius: 8px;
-    width: 80%;
-    max-width: 600px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
     position: relative;
     overflow-wrap: break-word;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 80vh;
+}
+.popup-desc{
+    overflow-y: auto;
+    padding-bottom: 60px;
+    max-height: calc(80vh - 50px);
+}
+.popup-content h2{
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+.popup-content p{
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+}
+.popup-footer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    border-top: 1px solid #ddd;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.popup-footer a{
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
 }
 .close-button{
     position: absolute;
     top: 10px;
     right: 10px;
     background: transparent;
-    color: white;
-    font-size: 16px;
+    font-size: 20px;
     border: none;
     cursor: pointer;
 }
@@ -174,13 +294,72 @@ li a:hover {
     background-color: #007bff;
     color: #fff;
     border: none;
-    padding: 10px 20px;
+    padding: 8px 16px;
     border-radius: 5px;
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-top: 15px;
+    margin-right: 15px;
 }
 .register-button:hover {
     background-color: #0056b3;
 }
+.register-button.registered {
+    background-color: #28a745;
+    color: #fff
+}
+.register-button.registered:hover {
+    background-color: #218838;
+}
+.registered-events-container { 
+    max-height: 600px; /* Set a fixed height for the container */ 
+    overflow-y: auto; /* Enable vertical scrolling */ 
+    background-color: darkgray; 
+    border: 1px solid #ddd; 
+    border-radius: 8px; 
+    padding: 10px;
+    margin-bottom: 0px; /* Space between registered events and other events */ 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.registered-events {
+    margin: 20px;
+    padding: 15px;
+    background: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.registered-events h3 {
+    margin-top: auto;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.registered-event-box {
+    background-color: lightgray; /* Light background for registered events */
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    cursor: pointer;
+}
+
+.registered-event-box h3 {
+    font-size: 12px;
+    font-family:fantasy;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 5px;
+}
+
+.registered-event-box p {
+    font-size: 14px;
+    color: #555;
+    margin: 0;
+    line-height: 1.4;
+}
+
+
