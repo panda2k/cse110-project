@@ -10,9 +10,4 @@ describe('GET /users/testroute', () => {
     const response = await request(app.app).get('/users/testroute');
     expect(response.statusCode).toBe(200);
   });
-
-  it('fails', async () => {
-    const response = await request(app.app).get('/users/testroute');
-    expect(response.statusCode).toBe(201);
-  });
 });
