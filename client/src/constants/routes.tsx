@@ -1,11 +1,10 @@
+// src/constants/routes.tsx
 import { AppRoute } from "../types/AppRoute";
 import Test from "../components/Test";
-
-// add a route by specifying a path, followed by your JSX element. Import said element above.
-// See the path "/" as an example.
-
+import LoginPage from "../components/LoginPage"; // Import the LoginPage component
 
 export const routes: AppRoute[] = [
-    {path: "/", element: <Test></Test>},
-    {path: "/test", element: <div>this is atest</div>}
-]
+    { path: "/", element: <LoginPage /> },  // Set LoginPage as the root component
+    { path: "/test", element: <Test /> },   // Test component at /test path
+    // Add additional routes if needed
+];
