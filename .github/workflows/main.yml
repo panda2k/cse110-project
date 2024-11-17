@@ -31,13 +31,17 @@ jobs: # the things being executed
       - name: Install Dependencies
         run: npm install
         working-directory: server 
-      - name: Unit Test
-        run: echo "url = $DATABASE_URL\ntoken = $DATABASE_AUTH_TOKEN" # the actual testing line
+      - name: Write URL and AuthToken to .env
+        run: echo -e "DATABASE_URL = \"$DATABASE_URL\"\nDATABASE_AUTH_TOKEN = \"$DATABASE_AUTH_TOKEN\"" >> .env # the actual testing line
         working-directory: server 
         env:
           DATABASE_URL: ${{ steps.create-database.outputs.hostname }}
           DATABASE_AUTH_TOKEN: ${{ steps.create-database.outputs.token }}
+      - name: Run Tests
+        run: npm run test
+        working-directory: server
       - name: Delete Database
+        if: always()
         uses: ./.github/actions/delete-database
         with:
           organization_name: ${{ secrets.TURSO_ORGANIZATION_NAME }}
