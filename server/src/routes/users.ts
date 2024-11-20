@@ -23,6 +23,6 @@ userRoutes.post("", async (req, res) => {
     }
 }) 
 
-userRoutes.post("/users/rsvp/:id", (req, res) => {
-
+userRoutes.get("/testroute", (req, res) => {
+    res.status(200).send({data:"test received"});
 })

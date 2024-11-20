@@ -1,4 +1,4 @@
-name: Unit Tests # name of the test
+name: Tests # name of the test
 
 on:
  push:
@@ -7,13 +7,42 @@ on:
    branches: [ main ] # the Github Action will activate "on" the event that you "push" to the repo
 
 jobs: # the things being executed
- tests: # the name of your status check, will become important when you do branch protection
-   runs-on: ubuntu-latest # which device on Github's server that you are running the Actions on
-   steps:
-     - uses: actions/checkout@v4 # using version 4 of Actions
-     - name: Install Dependencies
-       run: npm install
-       working-directory: client
-     - name: Unit Test
-       run: npm run ci-test # the actual testing line
-       working-directory: client
+  frontend-tests: # the name of your status check, will become important when you do branch protection
+    runs-on: ubuntu-latest # which device on Github's server that you are running the Actions on
+    steps:
+      - uses: actions/checkout@v4 # using version 4 of Actions
+      - name: Install Dependencies
+        run: npm install
+        working-directory: client
+      - name: Unit Test
+        run: npm run ci-test # the actual testing line
+        working-directory: client
+  backend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 # using version 4 of Actions
+      - name: Create Database
+        id: create-database
+        uses: ./.github/actions/create-database
+        with:
+          organization_name: ${{ secrets.TURSO_ORGANIZATION_NAME }}
+          group_name: ${{ secrets.TURSO_GROUP_NAME }}
+          api_token: ${{ secrets.TURSO_API_TOKEN }}
+      - name: Install Dependencies
+        run: npm install
+        working-directory: server 
+      - name: Write URL and AuthToken to .env
+        run: echo -e "DATABASE_URL = \"$DATABASE_URL\"\nDATABASE_AUTH_TOKEN = \"$DATABASE_AUTH_TOKEN\"" >> .env # the actual testing line
+        working-directory: server 
+        env:
+          DATABASE_URL: ${{ steps.create-database.outputs.hostname }}
+          DATABASE_AUTH_TOKEN: ${{ steps.create-database.outputs.token }}
+      - name: Run Tests
+        run: npm run test
+        working-directory: server
+      - name: Delete Database
+        if: always()
+        uses: ./.github/actions/delete-database
+        with:
+          organization_name: ${{ secrets.TURSO_ORGANIZATION_NAME }}
+          api_token: ${{ secrets.TURSO_API_TOKEN }}

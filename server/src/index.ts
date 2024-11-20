@@ -10,7 +10,7 @@ const port = 3000;
 const app = express();
 app.use(cors());
 
-app.listen(port, () => {
+var server = app.listen(port, () => {
     console.log(`[server]: Server is running at http://localhost:${port}`);
 });
 
@@ -18,3 +18,8 @@ app.use(express.json());
 app.use("/users", userRoutes);
 app.use("/events", eventRoutes);
 app.use("/rsvp", rsvpRoutes);
+
+module.exports = { 
+    app: app,
+    server: server 
+};
