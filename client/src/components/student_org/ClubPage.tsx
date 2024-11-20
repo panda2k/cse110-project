@@ -23,8 +23,8 @@ const ClubPage: React.FC = () => {
         setEvents(updatedEvents);
     };
 
-    const handleDeleteEvent = (index: number) => {
-        const updatedEvents = events.filter((_, i) => i !== index);
+    const handleDeleteEvent = (eventName: string) => {
+        const updatedEvents = events.filter((event) => event.eventName !== eventName);
         setEvents(updatedEvents);
     };
 

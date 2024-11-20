@@ -13,7 +13,7 @@ interface Event {
 interface MyEventsListProps {
     events: Event[];
     onEditEvent: (index: number, updatedEvent: Event) => void;
-    onDeleteEvent: (index: number) => void;
+    onDeleteEvent: (eventName: string) => void;
 }
 
 const MyEventsList: React.FC<MyEventsListProps> = ({ events, onEditEvent, onDeleteEvent }) => {
@@ -32,8 +32,8 @@ const MyEventsList: React.FC<MyEventsListProps> = ({ events, onEditEvent, onDele
         setIsEditingIndex(null);
     };
 
-    const handleDelete = (index: number) => {
-        onDeleteEvent(index);
+    const handleDelete = (eventName: string) => {
+        onDeleteEvent(eventName);
     };
 
     return (
@@ -41,7 +41,7 @@ const MyEventsList: React.FC<MyEventsListProps> = ({ events, onEditEvent, onDele
             {events.map((event, index) => (
                 <div className="event-card" key={index}>
                     <button className="edit-button" onClick={() => handleEditClick(index)}>Edit</button>
-                    <button className="delete-button" onClick={() => handleDelete(index)}>Delete</button>
+                    <button className="delete-button" onClick={() => handleDelete(event.eventName)}>Delete</button>
 
                     {isEditingIndex === index ? (
                         <EditEvent event={event} onSave={(updatedEvent) => handleSave(index, updatedEvent)} onCancel={handleCancel} />

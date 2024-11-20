@@ -23,18 +23,38 @@ const EditEvent: React.FC<EditEventProps> = ({ event, onSave, onCancel }) => {
 
     // Update the local state whenever a form input changes
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        // Use the name of the input to update the correct property in the event object
         setEditedEvent({ ...editedEvent, [e.target.name]: e.target.value });
     };
 
     // Handle the form submission to save changes
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // Prevent page reload on form submission
-        onSave(editedEvent); // Call onSave function with the edited event data
-    };
 
-    // Backend integration point: Save changes to the database
-    // Here, you could make an API call to send `editedEvent` to the backend to update the event in the database.
+        try {
+            // Make PUT request to the backend to update the event
+            const response = await fetch(`/api/events/${event.eventName}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title: editedEvent.eventName,
+                    location: editedEvent.eventLocation,
+                    description: editedEvent.description,
+                    date: editedEvent.eventDate,
+                }),
+            });
+
+            if (response.ok) {
+                const updatedEvent = await response.json();
+                onSave(updatedEvent); // Call onSave function with the updated event
+            } else {
+                console.error('Error updating event:', await response.json());
+            }
+        } catch (error) {
+            console.error('Error making request to update event:', error);
+        }
+    };
 
     return (
         <form onSubmit={handleSubmit} className="edit-form">

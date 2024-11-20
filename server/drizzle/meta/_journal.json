@@ -8,6 +8,41 @@
       "when": 1730690312702,
       "tag": "0000_fat_mockingbird",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1731967805705,
+      "tag": "0001_brainy_betty_brant",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1731975712853,
+      "tag": "0002_shallow_red_hulk",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1731985782657,
+      "tag": "0003_known_baron_strucker",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1731985860413,
+      "tag": "0004_sad_spot",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1732058438077,
+      "tag": "0005_lyrical_apocalypse",
+      "breakpoints": true
     }
   ]
 }
