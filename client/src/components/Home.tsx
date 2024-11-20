@@ -1,25 +1,38 @@
 import "../styles/App.css";
 import "../styles/Home.css";
-import { Post, Events } from "../constants/EventLists";
 import React, { useEffect, useState } from "react";
-import { Route, Routes, Link } from "react-router-dom";
-
+import { getEvents, postRSVP } from "../utils/event-utils"; // Import utility functions
+import { Events } from "../types/event"; // Assuming this is where Event type is defined
 
 export const NewEvents = () => {
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedEvent, setSelectedEvent] = useState<Post | null>(null);
-    const [events, setEvents] = useState<Post[]>(Events);
-    const [registeredEvents, setRegisteredEvents] = useState<{ [key: number]: boolean }>({});
+    const [selectedEvent, setSelectedEvent] = useState<Events | null>(null);
+    const [events, setEvents] = useState<Events[]>([]);
+    const [registeredEvents, setRegisteredEvents] = useState<{ [key: string]: boolean }>({});
     const [welcomePopup, setWelcomePopup] = useState(true);
     const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
-
 
     const interests = [
         "Marshall", "Revelle", "Muir", "Warren", "Sixth", "ERC", "Eighth", "Seventh",
         "Networking", "STEM", "Social", "Freebies", "Music"
     ];
 
+    // Fetch events on component mount
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                const data = await getEvents(); // Use the utility function to fetch events
+                setEvents(data);
+            } catch (error) {
+                console.error("Error fetching events:", error);
+            }
+        };
 
+        fetchEvents();
+        setWelcomePopup(true); // Show welcome popup on load
+    }, []);
+
+    // Toggle interest selection
     const toggleInterest = (interest: string) => {
         setSelectedInterests((prevSelectedInterests) =>
             prevSelectedInterests.includes(interest)
@@ -28,51 +41,50 @@ export const NewEvents = () => {
         );
     };
 
-
+    // Close welcome popup
     const closeWelcomePopup = () => setWelcomePopup(false);
-
 
     // Filter events based on search query
     const filteredEvents = events.filter((event) =>
         event.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-
     // Handle search input change
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
     };
 
-
-    // Handle each note click to create the popup
-    const handleNoteClick = (eventData: Post) => {
+    // Open event popup
+    const handleNoteClick = (eventData: Events) => {
         setSelectedEvent(eventData);
     };
 
-
-    // Close the popup
+    // Close event popup
     const closePopup = () => {
         setSelectedEvent(null);
     };
 
+    // Send RSVP to the database and toggle registration
+    const toggleRegistration = async (eventId: string) => {
+        const userName = "current_user"; // Replace with actual logged-in username
 
-    // Toggle registration for a specific event
-    const toggleRegistration = (eventId: number) => {
-        setRegisteredEvents(prev => ({
-            ...prev,
-            [eventId]: !prev[eventId] // Toggle the registration status for the specific event ID
-        }));
+        const isRegistered = registeredEvents[eventId];
+
+        try {
+            if (!isRegistered) {
+                await postRSVP(eventId, userName); // Use the utility function to send RSVP
+            }
+            setRegisteredEvents(prev => ({
+                ...prev,
+                [eventId]: !isRegistered, // Toggle registration status locally
+            }));
+        } catch (error) {
+            console.error("Error toggling registration:", error);
+        }
     };
-
 
     // Get registered events to display in the box
     const registeredEventsList = events.filter(event => registeredEvents[event.id]);
-
-
-    useEffect(() => {
-        setWelcomePopup(true);
-    }, []);
-
 
     return (
         <div>
@@ -97,7 +109,6 @@ export const NewEvents = () => {
                     </div>
                 </div>
             )}
-
 
             <header id="Navigationbar">
                 <div className="Searchbar">
@@ -125,7 +136,7 @@ export const NewEvents = () => {
             </header>
             <div className="body">
                 <div className="Eventsgrid">
-                    {/* Registered Events as the first item in the grid */}
+                    {/* Registered Events */}
                     {registeredEventsList.length > 0 && (
                         <div className="registered-events-container">
                             {registeredEventsList.map(event => (
@@ -138,7 +149,6 @@ export const NewEvents = () => {
                         </div>
                     )}
 
-
                     {/* Main Event Grid */}
                     {filteredEvents.map((event) => (
                         <div key={event.id} className="events-list" onClick={() => handleNoteClick(event)}>
@@ -148,8 +158,7 @@ export const NewEvents = () => {
                 </div>
             </div>
 
-
-            {/* Popup for RSVP option */}
+            {/* Popup for RSVP */}
             {selectedEvent && (
                 <div className="popup-overlay" onClick={closePopup}>
                     <div className="popup-content" onClick={(e) => e.stopPropagation()}>
@@ -161,13 +170,13 @@ export const NewEvents = () => {
                             <p>{selectedEvent.description}</p>
                         </div>
                         <div className="popup-footer">
-                            <a href="dummyurl.com" target="_blank" rel="noopener noreferrer">dummyurl.com</a>
-                            <button
-                                className={`register-button ${registeredEvents[selectedEvent.id] ? 'registered' : ''}`}
-                                onClick={() => toggleRegistration(selectedEvent.id)}
-                            >
-                                {registeredEvents[selectedEvent.id] ? "Unregister" : "Register"}
-                            </button>
+                        <button
+                            className={`register-button ${registeredEvents[selectedEvent.id] ? 'registered' : ''}`}
+                            onClick={() => toggleRegistration(selectedEvent.id.toString())} // Convert to string
+                            >   
+                            {registeredEvents[selectedEvent.id] ? "Unregister" : "Register"}
+                        </button>
+
                         </div>
                     </div>
                 </div>
@@ -175,8 +184,3 @@ export const NewEvents = () => {
         </div>
     );
 };
-
-
-
-
-
