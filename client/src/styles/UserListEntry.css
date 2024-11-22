@@ -1,0 +1,11 @@
+.entryContainer {
+    display: flex;
+    min-height: 100px;
+    gap:2px;
+}
+
+.entryElement {
+    width:50%;
+    padding-bottom: 2px;
+    background-color: #f3f3f3;
+}

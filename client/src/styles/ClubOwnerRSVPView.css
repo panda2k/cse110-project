@@ -1,0 +1,46 @@
+.userList {
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    gap:2px;
+}
+
+.listContainer {
+    height: 90%;
+    overflow:scroll;
+    overflow-x:hidden;
+}
+
+.clubOwnerContainer {
+    margin: auto;
+    margin-top: 10vh;
+    border-color: #c7c3bf;
+    border-width: 10px;
+    border-style: solid;
+    border-radius: 18px;
+    max-height: 80vh;
+    max-width: calc(80vh * 0.89);
+    background-image: url("../assets/CBBaseCropped.PNG");
+}
+
+.contentContainer {
+    background-color:white;
+    margin: 1.5vh;
+    margin-top:0;
+    height: 70.5vh;
+    padding-top: 0px;
+}
+
+.offsetClipBoard {
+    height: 45px;
+    margin-top:-17vh;
+    margin-left: 1.5vh;
+    margin-right: 1.5vh;
+    background-color:white;
+}
+
+.CBClip {
+    width: calc(80vh * 0.4);
+    position:relative;
+    top:-70px;
+}
