@@ -4,6 +4,7 @@ import { getRSVP } from "../utils/event-utils";
 import { User } from "../types/User";
 import UserListEntry from "../components/UserListEntry";
 import '../styles/ClubOwnerRSVPView.css';
+import CBClip from '../assets/CBClip.png';
 
 const ClubRSVPView: React.FC<ClubEvent> = ({id}): JSX.Element => {
 
@@ -22,18 +23,23 @@ const ClubRSVPView: React.FC<ClubEvent> = ({id}): JSX.Element => {
 
     return (
         <div className="clubOwnerContainer">
-            <form>
-                <label htmlFor="eventId">Current Event Id: </label>
-                <input value={eventId} id="eventId" type="text" onChange={(event) => {setEventId(event.target.value)}} />   
-            </form>
-            <div>Total RSVP: {userList.length}</div>
-            <div className="userList">
-                <UserListEntry firstName="Full Name" lastName="" userId="" userName="Username"/>
-                {userList.map((user) => (
-                    <UserListEntry firstName={user.firstName} lastName={user.lastName} userId={user.userId} userName={user.userName}/>
-                ))}
-                <div style={{ height: "24px", width:"100%", borderBottomLeftRadius: "8px", borderBottomRightRadius: "8px", backgroundColor: "#DBDBDB"}} />
-            </div>  
+            <img className="CBClip" src={CBClip} alt="" />
+            <div className="offsetClipBoard"></div>
+            <div className="contentContainer">
+                <form>
+                    <label htmlFor="eventId">Current Event Id: </label>
+                    <input value={eventId} id="eventId" type="text" onChange={(event) => {setEventId(event.target.value)}} />   
+                </form>
+                <div><mark>{userList.length}</mark> Attendees</div>
+                <div className="listContainer">
+                    <div className="userList">
+                        <UserListEntry firstName="Full Name" lastName="" userId="" userName="Username"/>
+                        {userList.map((user) => (
+                            <UserListEntry firstName={user.firstName} lastName={user.lastName} userId={user.userId} userName={user.userName}/>
+                        ))}
+                    </div>  
+                </div>
+            </div>
         </div>
     );
 
