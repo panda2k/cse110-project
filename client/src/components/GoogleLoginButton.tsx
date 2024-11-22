@@ -1,21 +1,21 @@
-// src/components/GoogleLoginButton.tsx
 import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 
-const GoogleLoginButton: React.FC = () => {
-  const handleLoginSuccess = (credentialResponse: any) => {
-    console.log("Login Success:", credentialResponse);
-    // Handle login success here, e.g., store token or user info
-  };
+interface GoogleLoginButtonProps {
+  accountType: 'student' | 'organization'; // Prop to specify account type
+  onSuccess: (credentialResponse: any) => void; // Callback for successful login/signup
+}
 
+const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ accountType, onSuccess }) => {
   const handleLoginFailure = () => {
-    console.error("Login Failed");
+    console.error("Google login failed.");
+    alert("Google login failed. Please try again.");
   };
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
       <GoogleLogin
-        onSuccess={handleLoginSuccess}
+        onSuccess={onSuccess}
         onError={handleLoginFailure}
       />
     </div>
