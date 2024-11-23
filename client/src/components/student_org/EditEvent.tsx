@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import "../../styles/EditEvent.css";
 
-// Define the structure of an Event object
 interface Event {
+    eventID?: string;
     eventName: string;
     eventDate: string;
     eventLocation: string;
     description: string;
-    image?: string; // New property for the image URL
+    image?: string | null; // New property for the image URL
 }
 
 // Define the props that EditEvent component will receive
@@ -30,24 +30,34 @@ const EditEvent: React.FC<EditEventProps> = ({ event, onSave, onCancel }) => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // Prevent page reload on form submission
 
+        const eventData: Event = {
+            eventID: event.eventID,
+            eventName: editedEvent.eventName,
+            eventDate: editedEvent.eventDate,
+            description: editedEvent.description,
+            eventLocation: editedEvent.eventLocation,
+        };
+
+        const eventData_json = {
+            title: editedEvent.eventName,
+            location: editedEvent.eventLocation,
+            description: editedEvent.description,
+            date: editedEvent.eventDate,
+        }
         try {
             // Make PUT request to the backend to update the event
-            const response = await fetch(`/api/events/${event.eventName}`, {
+            const response = await fetch(`http://localhost:8080/events/${event.eventID}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    title: editedEvent.eventName,
-                    location: editedEvent.eventLocation,
-                    description: editedEvent.description,
-                    date: editedEvent.eventDate,
-                }),
+                body: JSON.stringify(eventData_json),
             });
 
             if (response.ok) {
                 const updatedEvent = await response.json();
-                onSave(updatedEvent); // Call onSave function with the updated event
+                onSave(eventData); // Call onSave function with the updated event
+                window.location.reload();
             } else {
                 console.error('Error updating event:', await response.json());
             }

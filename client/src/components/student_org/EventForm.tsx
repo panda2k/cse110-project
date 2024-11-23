@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../../styles/EventForm.css';
 
 interface Event {
+    eventID?: string;
     eventName: string;
     eventDate: string;
     eventLocation: string;
@@ -62,6 +63,7 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
                 const data = await response.json();
                 alert(data.message); // Show success message
                 onAddEvent(eventData);
+                window.location.reload();
             } else {
                 const errorData = await response.json();
                 alert("Error: " + errorData.error); // Show error message

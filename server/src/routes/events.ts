@@ -61,7 +61,7 @@ eventRoutes.put("/:eventId", async (req: Request<{ eventId: string }, {}, { titl
     const { title, description, date, location } = req.body;
 
     if (!title && !description && !date && !location) {
-        res.status(400).send({ error: "No fields to update" });
+        // res.status(400).send({ error: "No fields to update" });
     }
 
     try {

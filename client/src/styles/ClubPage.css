@@ -40,3 +40,18 @@
     background-color: #0056b3;
     /* Darker blue on hover */
 }
+
+.clubPage {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.eventFormSection {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.eventListSection {
+    flex: 1;
+}
