@@ -1,5 +1,8 @@
 export type Conversation = {
-    otherParticipantId: string,
+    otherParticipant: {
+        id: string;
+        name: string;
+    },
     messages: Array<{
         recipientId: string,
         content: string,

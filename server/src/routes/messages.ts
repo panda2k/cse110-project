@@ -1,12 +1,12 @@
 import { Request, Router } from "express";
 import { db } from "../db/db";
-import { messages } from "../db/schema";
-import { desc, eq, InferSelectModel, or } from "drizzle-orm";
+import { messages, users } from "../db/schema";
+import { desc, eq, inArray, InferSelectModel, or } from "drizzle-orm";
 
 export const messageRoutes = Router();
 
 type Conversation = {
-    otherParticipantId: string,
+    otherParticipant: InferSelectModel<typeof users>;
     messages: InferSelectModel<typeof messages>[];
 }
 
@@ -25,9 +25,16 @@ messageRoutes.get("", async (req, res) => {
             }
             acc[otherParticipantId].push(cur);
             return acc;
-        }, {})
+        }, {});
+    const otherParticipantIds = Object.keys(items);
+    const otherParticipants = (await db.select().from(users)
+        .where(inArray(users.id, otherParticipantIds)))
+        .reduce((acc: Record<string, InferSelectModel<typeof users>>, cur) => {
+            acc[cur.id] = cur;
+            return acc;
+        }, {});
     const conversations: Conversation[] = Object.entries(items)
-        .map(([otherParticipantId, messages]) => ({ otherParticipantId, messages }))
+        .map(([otherParticipantId, messages]) => ({ otherParticipant: otherParticipants[otherParticipantId], messages }))
         .sort((a, b) => +b.messages[0].date - +a.messages[0].date);
 
     res.json(conversations);

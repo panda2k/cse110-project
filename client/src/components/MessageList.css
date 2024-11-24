@@ -1,0 +1,43 @@
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+.user-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-list > div {
+    display: flex;
+    flex-direction: column;
+    justify-items: start;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+}
+
+.messages > .own-message {
+    display: flex;
+    flex-direction: row;
+    justify-items: end;
+}
+
+.messages > .own-message > div {
+    background-color: rgb(57, 126, 246);
+    border-radius: 6px;
+}
+
+.messages > .other-message {
+    display: flex;
+    flex-direction: row;
+    justify-items: begin;
+}
+
+.messages > .other-message > div {
+    background-color: rgb(233, 233, 235);
+    border-radius: 6px;
+}
+
