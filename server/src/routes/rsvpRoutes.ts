@@ -1,7 +1,7 @@
 import { Router, Request } from "express";
 import { db } from "../db/db";
 import { eq, desc } from "drizzle-orm";
-import { userEvents, events, users } from "../db/schema";
+import { userEvents, events, studentsTable } from "../db/schema";
 
 const rsvpRoutes = Router();
 
@@ -16,7 +16,7 @@ rsvpRoutes.post("", async (req: Request<{}, {}, { userId: string; eventId: strin
         if (!eventExists) {
             await db.insert(userEvents).values({ userId, eventId });
         }
-        const userExists = await db.select().from(events).where(eq(users.id, userId));
+        const userExists = await db.select().from(events).where(eq(studentsTable.id, userId));
         if (!userExists) {
             await db.insert(userEvents).values({ userId, eventId });
         } else {

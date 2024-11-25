@@ -1,12 +1,15 @@
 import React from 'react';
 import '../../styles/EventsCardList.css';
+import { useEffect, useState } from 'react';
+import { fetchEvents } from '../../utils/event-utils';
 
 interface Event {
+    eventID?: string,
     eventName: string;
     eventDate: string;
     eventLocation: string;
     description: string;
-    image: string;
+    image?: string;
 }
 
 interface EventCardListProps {
@@ -16,29 +19,26 @@ interface EventCardListProps {
 }
 
 const EventCardList: React.FC<EventCardListProps> = ({ addEventToSidebar, removeEventFromSidebar, rsvpStatus }) => {
-    const events: Event[] = [
-        {
-            eventName: 'Event 1',
-            eventDate: 'Yesterday',
-            eventLocation: 'Location!',
-            description: 'Description!',
-            image: 'https://via.placeholder.com/300x200?text=Event+1',
-        },
-        {
-            eventName: 'Event 2',
-            eventDate: 'Today',
-            eventLocation: 'Location!!',
-            description: 'Description!!',
-            image: 'https://via.placeholder.com/300x200?text=Event+2',
-        },
-        {
-            eventName: 'Event 3',
-            eventDate: 'Tomorrow',
-            eventLocation: 'Location!!!',
-            description: 'Description!!!',
-            image: 'https://via.placeholder.com/300x200?text=Event+3',
-        },
-    ];
+    const [events, setEvents] = useState<Event[]>([]);
+    useEffect(() => {
+        const getEvents = async () => {
+            try {
+                const eventsData = await fetchEvents(); // Use the fetchEvents function
+                console.log(eventsData);
+                const transformedEvents: Event[] = eventsData.map((item: any) => ({
+                    eventID: item.id,               // Map `id` to `eventID`
+                    eventName: item.title,          // Map `title` to `eventName`
+                    eventDate: item.date,           // Map `date` to `eventDate`
+                    eventLocation: item.location,   // Map `location` to `eventLocation`
+                    description: item.description,  // Map `description`
+                }));
+                setEvents(transformedEvents); // Set the fetched events in state
+            } catch (error) {
+                console.error("Error fetching events:", error);
+            }
+        };
+        getEvents();
+    }, []);
 
     const toggleRsvp = (event: Event) => {
         if (!rsvpStatus[event.eventName]) {
@@ -47,12 +47,11 @@ const EventCardList: React.FC<EventCardListProps> = ({ addEventToSidebar, remove
             removeEventFromSidebar(event);
         }
     };
-
     return (
         <div className="event-card-list">
             {events.map((event) => (
                 <div className="event-card" key={event.eventName}>
-                    <img src={event.image} alt={event.eventName} className="event-image" />
+                    {/* <img src={event.image} alt={event.eventName} className="event-image" /> */}
                     <div className="card-content">
                         <h3>{event.eventName}</h3>
                         <p><strong>Date:</strong> {event.eventDate}</p>

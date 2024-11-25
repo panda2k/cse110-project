@@ -3,7 +3,7 @@ import UserHomepage from './student_user/UserHomepage';
 import ClubPage from './student_org/ClubPage';
 
 function App() {
-  return <ClubPage />;
+  return <UserHomepage />;
 }
 
 export default App;
