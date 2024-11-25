@@ -14,6 +14,7 @@
                     nodejs_23
                     nodePackages.typescript
                     nodePackages.typescript-language-server
+                    nodePackages."@tailwindcss/language-server"
                 ];
             };
         }

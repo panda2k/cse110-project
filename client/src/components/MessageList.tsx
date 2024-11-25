@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { Conversation } from "../types/types";
-import { getMessages } from "../utils";
+import { getMessages, sendMessage } from "../utils";
 import "./MessageList.css"
 
 const testConversations: Conversation[] = [
@@ -10,6 +10,11 @@ const testConversations: Conversation[] = [
             name: "Alice",
         },
         messages: [
+            { recipientId: "me", content: "Hey, how are you?", date: new Date("2024-11-15T10:00:00Z"), authorId: "user-123", id: "msg-1" },
+            { recipientId: "user-123", content: "I'm good, thanks! How about you?", date: new Date("2024-11-15T10:02:00Z"), authorId: "me", id: "msg-2" },
+            { recipientId: "me", content: "Doing well! Are we still on for lunch tomorrow?", date: new Date("2024-11-15T10:03:00Z"), authorId: "user-123", id: "msg-3" },
+            { recipientId: "user-123", content: "Yes, 12:30 at the usual spot?", date: new Date("2024-11-15T10:04:00Z"), authorId: "me", id: "msg-4" },
+            { recipientId: "me", content: "Perfect, see you then!", date: new Date("2024-11-15T10:05:00Z"), authorId: "user-123", id: "msg-5" },
             { recipientId: "me", content: "Hey, how are you?", date: new Date("2024-11-15T10:00:00Z"), authorId: "user-123", id: "msg-1" },
             { recipientId: "user-123", content: "I'm good, thanks! How about you?", date: new Date("2024-11-15T10:02:00Z"), authorId: "me", id: "msg-2" },
             { recipientId: "me", content: "Doing well! Are we still on for lunch tomorrow?", date: new Date("2024-11-15T10:03:00Z"), authorId: "user-123", id: "msg-3" },
@@ -71,38 +76,86 @@ const testConversations: Conversation[] = [
     }
 ];
 
+const getInitials = (name: string) => {
+    return name.split(" ").map(s => s.charAt(0)).join("");
+}
+
 export default function MessageList() {
-    const [conversations, setConversations] = useState<Conversation[]>([]);
+    const [conversations, setConversations] = useState<Conversation[]>(testConversations);
+    const [currentConversation, setCurrentConversation] = useState<string>("");
     const userId = "me";
 
     useEffect(() => {
         const interval = setInterval(async () => {
             //setConversations(await getMessages());
-            setConversations(testConversations);
+            setConversations(conversations);
         }, 15000)
         return () => clearInterval(interval);
     }, [setConversations]);
 
+    const onFormSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const formElements = form.elements as typeof form.elements & {
+            content: { value: string }
+        }
+        //sendMessage(currentConversation, formElements.content.value);
+        const newConversations = [...conversations];
+        newConversations.find(c => c.otherParticipant.id === currentConversation)?.messages.push({
+            content: formElements.content.value,
+            authorId: userId,
+            recipientId: currentConversation,
+            date: new Date(),
+            id: String(+new Date())
+        })
+        setConversations(newConversations);
+        formElements.content.value = "";
+    }
+
+
     return (
         <div className="container">
             <div className="user-list">
-                { conversations.map(({ otherParticipant, messages }) => (
+                {conversations.map(({ otherParticipant, messages }) => (
                     <div>
-                        <p>{otherParticipant.name}</p>
-                        <p>{messages.at(-1)?.content ?? "Message cannot be loaded"}</p>
+                        <div className="picture">
+                            <div className="picture-inner">{getInitials(otherParticipant.name)}</div>
+                        </div>
+                        <div onClick={() => setCurrentConversation(otherParticipant.id)} className="preview">
+                            <p>{otherParticipant.name}</p>
+                            <p>{messages.at(-1)?.content ?? "Message cannot be loaded"}</p>
+                        </div>
                     </div>
-                )) }
+                ))}
             </div>
-            <div className="messages">
-                { conversations.map(({ messages }) => (
-                    <div>
-                        { messages.map(m => (
-                            <div className={ m.authorId === userId ? "own-message" : "other-message" }>
-                                <div>{m.content}</div>
+            <div className="message-container">
+                {currentConversation ? (
+                    <>
+                        <div className="header">
+                            <div className="picture">
+                                <div className="picture-inner">{getInitials(conversations.find(c => c.otherParticipant.id === currentConversation)?.otherParticipant.name ?? "")}</div>
                             </div>
-                        )) }
-                    </div>
-                )) } 
+                            <div className="name">
+                                {conversations.find(c => c.otherParticipant.id === currentConversation)?.otherParticipant.name}
+                            </div>
+                        </div>
+                        <div className="messages">
+                            {
+                                currentConversation && conversations.find(c => c.otherParticipant.id === currentConversation)?.messages.map(m => (
+                                    <div className={m.authorId === userId ? "own-message" : "other-message"}>
+                                        <div>{m.content}</div>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                        <form className="send-message" onSubmit={onFormSubmit}>
+                            <input id="content" type="text" placeholder="Message here..." />
+                            <button type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-send-horizontal"><path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z" /><path d="M6 12h16" /></svg>
+                            </button>
+                        </form>
+                    </>
+                ) : <div className="info-message">Select a conversation first</div>}
             </div>
         </div>
     );
