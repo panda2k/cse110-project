@@ -3,7 +3,6 @@ import 'dotenv/config'; // Automatically loads environment variables from .env f
 import cors from 'cors';
 import { userRoutes } from './routes/users';
 import authRoutes from './routes/auth';
-import { initDatabase } from './db/db'; // Importing the database initialization function
 
 const PORT = process.env.PORT || 8080; // Default to port 8080 if not specified in .env
 const app = express();
@@ -11,10 +10,6 @@ let server; // Declare server in the outer scope
 
 (async () => {
   try {
-    // Initialize the database before starting the server
-    console.log('Initializing the database...');
-    await initDatabase();
-    console.log('Database initialized.');
 
     // Middleware
     app.use(cors());
