@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "e14484cf-52b6-4d1f-bc42-487f8843e68f",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "68aae2e6-a53b-4396-a632-21f82d28fd69",
+  "prevId": "d35e5ebc-1a59-4ed0-941b-f496ec920ea4",
   "tables": {
     "events": {
       "name": "events",
@@ -84,6 +84,13 @@
         "organizationId": {
           "name": "organizationId",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "author": {
+          "name": "author",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -223,7 +230,9 @@
   "_meta": {
     "schemas": {},
     "tables": {},
-    "columns": {}
+    "columns": {
+      "\"messages\".\"authorId\"": "\"messages\".\"author\""
+    }
   },
   "internal": {
     "indexes": {}
