@@ -5,6 +5,8 @@
     column-gap: 8px;
     padding: 16px;
     border-radius: 16px;
+    max-height: 60vh;
+    overflow: hidden;
 }
 
 .user-list {
@@ -12,6 +14,7 @@
     flex-direction: column;
     max-width: 30%;
     row-gap: 12px;
+    overflow-y: scroll;
 }
 
 .user-list > div {
@@ -133,13 +136,16 @@
 
 .send-message {
     margin-top: 16px;
-    background-color: #FFFFFF;
-    display: flex;
-    border-radius: 12px;
-    overflow: hidden;
 }
 
-.send-message > input {
+.send-message > div {
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    background-color: #FFFFFF;
+}
+
+.send-message > div > input {
     border: none;
     flex-grow: 1;
     height: 48px;
@@ -147,11 +153,11 @@
     padding-left: 16px;
 }
 
-.send-message > input:focus {
+.send-message > div > input:focus {
     outline: 0;
 }
 
-.send-message > button {
+.send-message > div > button {
     background-color: white;
     border: none;
     border-top-right-radius: 6px;
