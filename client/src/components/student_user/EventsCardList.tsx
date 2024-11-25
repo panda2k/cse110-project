@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 import { fetchEvents } from '../../utils/event-utils';
 
 interface Event {
-    eventID?: string,
+    eventID?: string;
     eventName: string;
+    eventTime: string;
     eventDate: string;
     eventLocation: string;
     description: string;
@@ -28,6 +29,7 @@ const EventCardList: React.FC<EventCardListProps> = ({ addEventToSidebar, remove
                 const transformedEvents: Event[] = eventsData.map((item: any) => ({
                     eventID: item.id,               // Map `id` to `eventID`
                     eventName: item.title,          // Map `title` to `eventName`
+                    eventTime: item.item,
                     eventDate: item.date,           // Map `date` to `eventDate`
                     eventLocation: item.location,   // Map `location` to `eventLocation`
                     description: item.description,  // Map `description`
@@ -54,6 +56,7 @@ const EventCardList: React.FC<EventCardListProps> = ({ addEventToSidebar, remove
                     {/* <img src={event.image} alt={event.eventName} className="event-image" /> */}
                     <div className="card-content">
                         <h3>{event.eventName}</h3>
+                        <p><strong>Time:</strong> {event.eventTime}</p>
                         <p><strong>Date:</strong> {event.eventDate}</p>
                         <p><strong>Location:</strong> {event.eventLocation}</p>
                         <p><strong>Description:</strong> {event.description}</p>

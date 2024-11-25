@@ -4,6 +4,7 @@ import "../../styles/EditEvent.css";
 interface Event {
     eventID?: string;
     eventName: string;
+    eventTime: string;
     eventDate: string;
     eventLocation: string;
     description: string;
@@ -33,6 +34,7 @@ const EditEvent: React.FC<EditEventProps> = ({ event, onSave, onCancel }) => {
         const eventData: Event = {
             eventID: event.eventID,
             eventName: editedEvent.eventName,
+            eventTime: editedEvent.eventTime,
             eventDate: editedEvent.eventDate,
             description: editedEvent.description,
             eventLocation: editedEvent.eventLocation,
@@ -40,6 +42,7 @@ const EditEvent: React.FC<EditEventProps> = ({ event, onSave, onCancel }) => {
 
         const eventData_json = {
             title: editedEvent.eventName,
+            time: editedEvent.eventTime,
             location: editedEvent.eventLocation,
             description: editedEvent.description,
             date: editedEvent.eventDate,
@@ -73,6 +76,16 @@ const EditEvent: React.FC<EditEventProps> = ({ event, onSave, onCancel }) => {
                 <input
                     type="text"
                     name="eventName"
+                    value={editedEvent.eventName}
+                    onChange={handleChange}
+                    required
+                />
+            </label>
+            <label>
+                Event Time:
+                <input
+                    type="text"
+                    name="eventTime"
                     value={editedEvent.eventName}
                     onChange={handleChange}
                     required

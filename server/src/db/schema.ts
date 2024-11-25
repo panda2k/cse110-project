@@ -7,9 +7,13 @@ export const events = sqliteTable("events", {
         .primaryKey()
         .$defaultFn(() => crypto.randomUUID()),
     title: text("title", { length: 255 }).notNull(),
+    time: text("time", { length: 255 }).notNull(),
     description: text("description", { length: 10000 }).notNull(),
     date: text("date", { length: 255 }).notNull(),
-    location: text("location", { length: 5000 }).notNull()
+    location: text("location", { length: 5000 }).notNull(),
+    // orgID: text("eventId", { length: 255 })
+    //     .notNull()
+    //     .references(() => organizationsTable.id, { onDelete: "cascade" }),
 });
 
 // export const users = sqliteTable("users", {

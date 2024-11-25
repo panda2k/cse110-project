@@ -43,6 +43,13 @@
       "when": 1732058438077,
       "tag": "0005_lyrical_apocalypse",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1732565560797,
+      "tag": "0006_parallel_nocturne",
+      "breakpoints": true
     }
   ]
 }

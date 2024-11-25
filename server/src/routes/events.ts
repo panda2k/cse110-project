@@ -5,11 +5,12 @@ import { desc, eq, InferSelectModel } from "drizzle-orm";
 
 export const eventRoutes = Router();
 
-eventRoutes.post("", async (req: Request<{}, {}, { title: string, location: string, description: string, date: string }>, res) => {
+eventRoutes.post("", async (req: Request<{}, {}, { title: string, location: string, description: string, date: string, time: string }>, res) => {
     try {
         console.log("Request Body:", req.body);
         await db.insert(events).values({
             title: req.body.title,
+            time: req.body.time,
             location: req.body.location,
             description: req.body.description,
             date: req.body.date,
@@ -56,9 +57,9 @@ eventRoutes.get("", async (req, res) => {
 //     }
 // });
 
-eventRoutes.put("/:eventId", async (req: Request<{ eventId: string }, {}, { title: string; description: string; date: number, location: string }>, res) => {
+eventRoutes.put("/:eventId", async (req: Request<{ eventId: string }, {}, { title: string; description: string; date: number, location: string, time: string }>, res) => {
     const { eventId } = req.params;
-    const { title, description, date, location } = req.body;
+    const { title, description, date, location, time } = req.body;
 
     if (!title && !description && !date && !location) {
         // res.status(400).send({ error: "No fields to update" });
@@ -75,6 +76,7 @@ eventRoutes.put("/:eventId", async (req: Request<{ eventId: string }, {}, { titl
         if (location) updatedFields.location = location;
         if (description) updatedFields.description = description;
         if (date) updatedFields.date = date;
+        if (time) updatedFields.time = time;
 
         await db.update(events).set(updatedFields).where(eq(events.id, eventId));
 

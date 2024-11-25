@@ -4,6 +4,7 @@ import '../../styles/EventForm.css';
 interface Event {
     eventID?: string;
     eventName: string;
+    eventTime: string;
     eventDate: string;
     eventLocation: string;
     description: string;
@@ -16,6 +17,7 @@ interface EventFormProps {
 
 const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
     const [eventName, setEventName] = useState<string>('');
+    const [eventTime, setEventTime] = useState<string>('');
     const [eventDate, setEventDate] = useState<string>('');
     const [eventLocation, setEventLocation] = useState<string>('');
     const [description, setDescription] = useState<string>('');
@@ -38,13 +40,16 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
 
         const eventData: Event = {
             eventName: eventName,
+            eventTime: eventTime,
             eventDate: eventDate,
             description: description,
             eventLocation: eventLocation,
+            image: image,
         };
 
         const eventData_json = {
             title: eventName,
+            time: eventTime,
             location: eventLocation,
             description: description,
             date: eventDate,
@@ -92,6 +97,16 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
                         id="eventName"
                         value={eventName}
                         onChange={(e) => setEventName(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="eventTime">Event Time:</label>
+                    <input
+                        type="time"
+                        id="eventTime"
+                        value={eventTime}
+                        onChange={(e) => setEventTime(e.target.value)}
                         required
                     />
                 </div>

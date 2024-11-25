@@ -7,6 +7,7 @@ import { fetchEvents } from '../../utils/event-utils'; // Import the fetchEvents
 interface Event {
     eventID?: string;
     eventName: string;
+    eventTime: string;
     eventDate: string;
     eventLocation: string;
     description: string;
@@ -25,6 +26,7 @@ const ClubPage: React.FC = () => {
                 const transformedEvents: Event[] = eventsData.map((item: any) => ({
                     eventID: item.id,               // Map `id` to `eventID`
                     eventName: item.title,          // Map `title` to `eventName`
+                    eventTime: item.time,
                     eventDate: item.date,           // Map `date` to `eventDate`
                     eventLocation: item.location,   // Map `location` to `eventLocation`
                     description: item.description,  // Map `description`

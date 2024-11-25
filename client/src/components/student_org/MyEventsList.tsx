@@ -5,6 +5,7 @@ import EditEvent from './EditEvent';
 interface Event {
     eventID?: string;
     eventName: string;
+    eventTime: string;
     eventDate: string;
     eventLocation: string;
     description: string;
@@ -73,6 +74,7 @@ const MyEventsList: React.FC<MyEventsListProps> = ({ events, onEditEvent, onDele
                         <div className="card-content">
                             {event.image && <img src={event.image} alt={`${event.eventName} image`} className="event-image" />}
                             <h3>{event.eventName}</h3>
+                            <p><strong>Event Time:</strong> {event.eventTime}</p>
                             <p><strong>Date:</strong> {event.eventDate}</p>
                             <p><strong>Location:</strong> {event.eventLocation}</p>
                             <p><strong>Description:</strong> {event.description}</p>
