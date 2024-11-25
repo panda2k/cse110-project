@@ -112,52 +112,53 @@ export default function MessageList() {
         formElements.content.value = "";
     }
 
-
     return (
-        <div className="container">
-            <div className="user-list">
-                {conversations.map(({ otherParticipant, messages }) => (
-                    <div>
-                        <div className="picture">
-                            <div className="picture-inner">{getInitials(otherParticipant.name)}</div>
-                        </div>
-                        <div onClick={() => setCurrentConversation(otherParticipant.id)} className="preview">
-                            <p>{otherParticipant.name}</p>
-                            <p>{messages.at(-1)?.content ?? "Message cannot be loaded"}</p>
-                        </div>
-                    </div>
-                ))}
-            </div>
-            <div className="message-container">
-                {currentConversation ? (
-                    <>
-                        <div className="header">
+        <div className="outer"> 
+            <div className="container">
+                <div className="user-list">
+                    {conversations.map(({ otherParticipant, messages }) => (
+                        <div>
                             <div className="picture">
-                                <div className="picture-inner">{getInitials(conversations.find(c => c.otherParticipant.id === currentConversation)?.otherParticipant.name ?? "")}</div>
+                                <div className="picture-inner">{getInitials(otherParticipant.name)}</div>
                             </div>
-                            <div className="name">
-                                {conversations.find(c => c.otherParticipant.id === currentConversation)?.otherParticipant.name}
+                            <div onClick={() => setCurrentConversation(otherParticipant.id)} className="preview">
+                                <p>{otherParticipant.name}</p>
+                                <p>{messages.at(-1)?.content ?? "Message cannot be loaded"}</p>
                             </div>
                         </div>
-                        <div className="messages">
-                            {
-                                currentConversation && conversations.find(c => c.otherParticipant.id === currentConversation)?.messages.map(m => (
-                                    <div className={m.authorId === userId ? "own-message" : "other-message"}>
-                                        <div>{m.content}</div>
-                                    </div>
-                                ))
-                            }
-                        </div>
-                        <form className="send-message" onSubmit={onFormSubmit}>
-                            <div>
-                                <input id="content" type="text" placeholder="Message here..." />
-                                <button type="submit">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-send-horizontal"><path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z" /><path d="M6 12h16" /></svg>
-                                </button>
+                    ))}
+                </div>
+                <div className="message-container">
+                    {currentConversation ? (
+                        <>
+                            <div className="header">
+                                <div className="picture">
+                                    <div className="picture-inner">{getInitials(conversations.find(c => c.otherParticipant.id === currentConversation)?.otherParticipant.name ?? "")}</div>
+                                </div>
+                                <div className="name">
+                                    {conversations.find(c => c.otherParticipant.id === currentConversation)?.otherParticipant.name}
+                                </div>
                             </div>
-                        </form>
-                    </>
-                ) : <div className="info-message">Select a conversation first</div>}
+                            <div className="messages">
+                                {
+                                    currentConversation && conversations.find(c => c.otherParticipant.id === currentConversation)?.messages.slice().reverse().map(m => (
+                                        <div className={m.authorId === userId ? "own-message" : "other-message"}>
+                                            <div>{m.content}</div>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                            <form className="send-message" onSubmit={onFormSubmit}>
+                                <div>
+                                    <input id="content" type="text" placeholder="Message here..." />
+                                    <button type="submit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-send-horizontal"><path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z" /><path d="M6 12h16" /></svg>
+                                    </button>
+                                </div>
+                            </form>
+                        </>
+                    ) : <div className="info-message">Select a conversation first</div>}
+                </div>
             </div>
         </div>
     );

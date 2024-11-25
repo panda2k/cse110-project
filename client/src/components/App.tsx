@@ -11,16 +11,15 @@ function App() {
     <GoogleOAuthProvider clientId="281005346216-595e2iv07jrpjkshv6j0stmhnfj1rqh5.apps.googleusercontent.com">
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <nav>
-              <Link to="/">Home</Link> <Link to="/test">Test</Link>
+            <Link to="/">Home</Link> <Link to="/test">Test</Link>
           </nav>
-          <Routes>
-              {routes.map((route) => (
-                <Route key={route.path} path={route.path} element={route.element} />
-              ))}
-          </Routes>
         </header>
+        <Routes>
+          {routes.map((route) => (
+            <Route key={route.path} path={route.path} element={route.element} />
+          ))}
+        </Routes>
       </div>
     </GoogleOAuthProvider>
   );

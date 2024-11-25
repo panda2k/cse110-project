@@ -1,3 +1,11 @@
+.outer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-grow: 1;
+}
+
 .container {
     display: flex;
     flex-direction: row;
@@ -5,8 +13,9 @@
     column-gap: 8px;
     padding: 16px;
     border-radius: 16px;
-    max-height: 60vh;
+    height: 60vh;
     overflow: hidden;
+    width: 80%;
 }
 
 .user-list {
@@ -93,7 +102,7 @@
 
 .messages {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     flex-grow: 1;
     row-gap: 16px;
     background-color: #FAF9F6;
