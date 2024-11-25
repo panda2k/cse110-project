@@ -34,6 +34,10 @@
     align-items: center;
 }
 
+.user-list > .no-conversations {
+    padding: 12px;
+}
+
 .preview {
     display: flex;
     flex-direction: column;
@@ -127,6 +131,7 @@
     border-radius: 6px;
     padding: 12px;
     text-align: left;
+    color: white;
 }
 
 .messages > .other-message {

@@ -7,31 +7,19 @@ import { messageRoutes } from "./routes/messages";
 
 const PORT = process.env.PORT || 8080; // Default to port 8080 if not specified in .env
 const app = express();
-let server; // Declare server in the outer scope
 
-(async () => {
-  try {
+// Middleware
+app.use(cors());
+app.use(express.json());
 
-    // Middleware
-    app.use(cors());
-    app.use(express.json());
+// Routes
+app.use('/users', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use("/messages", messageRoutes);
 
-    // Routes
-    app.use('/users', userRoutes);
-    app.use('/api/auth', authRoutes);
-    app.use("/messages", messageRoutes);
-
-    // Start the server
-    server = app.listen(PORT, () => {
-      console.log(`[server]: Server is running at http://localhost:${PORT}`);
-    });
-  } catch (error) {
-    console.error('Error during database initialization:', error);
-    process.exit(1); // Exit process on failure
-  }
-})();
-var server = app.listen(PORT, () => {
-    console.log(`[server]: Server is running at http://localhost:${PORT}`);
+// Start the server
+const server = app.listen(PORT, () => {
+  console.log(`[server]: Server is running at http://localhost:${PORT}`);
 });
 
 // Export app and server for testing or other purposes

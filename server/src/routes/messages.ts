@@ -1,55 +1,57 @@
 import { Request, Router } from "express";
-import { db } from "../db/db";
-import { messages, users } from "../db/schema";
-import { desc, eq, inArray, InferSelectModel, or } from "drizzle-orm";
+import { drizzleDb as db } from "../db/db";
+import { messages, organizations, students } from "../db/schema";
+import { asc, desc, eq, inArray, InferSelectModel, or } from "drizzle-orm";
 
 export const messageRoutes = Router();
 
 type Conversation = {
-    otherParticipant: InferSelectModel<typeof users>;
+    otherParticipant: InferSelectModel<typeof students> | InferSelectModel<typeof organizations>;
     messages: InferSelectModel<typeof messages>[];
 }
 
-messageRoutes.get("", async (req, res) => {
-    const authorId = "";
+messageRoutes.get("/:userType/:id", async (req: Request<{ id: string, userType: "student" | "organization" }>, res) => {
+    const authorId = parseInt(req.params.id);
     const items = (await db.select().from(messages)
         .where(or(
-            eq(messages.authorId, authorId),
-            eq(messages.recipientId, authorId)
+            eq(messages.organizationId, authorId),
+            eq(messages.studentId, authorId)
         ))
-        .orderBy(desc(messages.date)))
+        .orderBy(asc(messages.date)))
         .reduce((acc: Record<string, InferSelectModel<typeof messages>[]>, cur) => {
-            const otherParticipantId = cur.recipientId === authorId ? cur.authorId : cur.recipientId;
+            const otherParticipantId = req.params.userType === "student" ? cur.organizationId : cur.studentId;
             if (!acc[otherParticipantId]) {
                 acc[otherParticipantId] = [];
             }
             acc[otherParticipantId].push(cur);
             return acc;
         }, {});
-    const otherParticipantIds = Object.keys(items);
-    const otherParticipants = (await db.select().from(users)
-        .where(inArray(users.id, otherParticipantIds)))
-        .reduce((acc: Record<string, InferSelectModel<typeof users>>, cur) => {
+    const otherParticipantIds = Object.keys(items).map(id => parseInt(id));
+    const otherParticipants = (await
+        db.select().from(req.params.userType === "organization" ? students : organizations).where(inArray(req.params.userType === "organization" ? students.id : organizations.id, otherParticipantIds))
+    )
+        .reduce((acc: Record<string, InferSelectModel<typeof students> | InferSelectModel<typeof organizations>>, cur) => {
             acc[cur.id] = cur;
             return acc;
         }, {});
     const conversations: Conversation[] = Object.entries(items)
-        .map(([otherParticipantId, messages]) => ({ otherParticipant: otherParticipants[otherParticipantId], messages }))
+        .map(([otherParticipantId, messages]) => ({ otherParticipant: otherParticipants[otherParticipantId] as Conversation["otherParticipant"], messages }))
         .sort((a, b) => +b.messages[0].date - +a.messages[0].date);
-
+ 
     res.json(conversations);
     return;
 });
 
-messageRoutes.post("", async (req: Request<{}, {}, { recipientId: string, content: string }>, res) => {
-    const authorId = "";
+messageRoutes.post("", async (req: Request<{}, {}, { studentId: number, content: string, organizationId: number, author: "student" | "organization" }>, res) => {
+    console.log(req.body)
     await db.insert(messages).values({
-        authorId,
-        recipientId: req.body.recipientId,
+        studentId: req.body.studentId,
+        organizationId: req.body.organizationId,
+        author: req.body.author,
         content: req.body.content,
     });
 
-    res.status(200).send();
+    res.json({ message: "Message created!" });
     return;
 });
 

@@ -35,9 +35,9 @@ const LoginPage: React.FC = () => {
       console.log("Server Response:", data);
 
       if (response.ok) {
+        login(data.token);
         alert("Signup successful!");
         // Optionally, log the user in automatically after signup
-        // login(data.token);
         // Redirect or update UI as needed
       } else {
         console.error("Signup failed:", data.message);
@@ -89,9 +89,9 @@ const LoginPage: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert('Signup successful!');
         // Optionally, log the user in automatically after signup
-        // login(data.token);
+        login(data.token);
+        alert('Signup successful!');
         // Redirect or update UI as needed
       } else {
         setErrorMessage(data.message || 'Signup failed.');
@@ -115,8 +115,8 @@ const LoginPage: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert('Login successful!');
         login(data.token); // Update auth context with the token
+        alert('Login successful!');
         // Redirect or update UI as needed
       } else {
         setErrorMessage(data.message || 'Login failed.');
@@ -311,7 +311,7 @@ const styles: { [key: string]: CSSProperties } = {
     width: '150px',
     height: 'auto',
   },
-  
+
 };
 
 export default LoginPage;

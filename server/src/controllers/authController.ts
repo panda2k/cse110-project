@@ -6,12 +6,12 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 // Import tables
-import { studentsTable, organizationsTable } from '../db/schema'; // Ensure these are properly exported
+import { students, organizations } from '../db/schema'; // Ensure these are properly exported
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const getTable = (type: string) =>
-  type === 'student' ? studentsTable : organizationsTable;
+  type === 'student' ? students : organizations;
 
 // Normal Signup Function
 export const signup: RequestHandler = async (req, res): Promise<void> => {
@@ -42,14 +42,26 @@ export const signup: RequestHandler = async (req, res): Promise<void> => {
       return;
     }
 
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      res.status(500).json({ message: 'Internal server error.' });
+      return;
+    }
+
     // Hash the password and insert the new user
     const hashedPassword = await bcrypt.hash(password, 10);
-    await drizzleDb.insert(table).values({
+    const [user] = await drizzleDb.insert(table).values({
       username,
       password: hashedPassword,
-    });
+    }).returning();
 
-    res.status(201).json({ message: 'Account created successfully.' });
+    const jwtToken = jwt.sign(
+      { id: user.id, username: user.username, type },
+      jwtSecret,
+      { expiresIn: '1h' }
+    );
+
+    res.status(201).json({ message: 'Account created successfully.', token: jwtToken });
   } catch (error) {
     console.error('Error during normal signup:', error);
     res.status(500).json({ message: 'Internal server error.' });
@@ -98,14 +110,27 @@ export const googleSignup: RequestHandler = async (req, res): Promise<void> => {
       return;
     }
 
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      res.status(500).json({ message: 'Internal server error.' });
+      return;
+    }
+
     // Insert the new user
-    await drizzleDb.insert(table).values({
+    const [user] = await drizzleDb.insert(table).values({
       username: email,
       password: '', // Password is empty for Google accounts
       google_id: googleId,
-    });
+    }).returning();
 
-    res.status(201).json({ message: 'Account created successfully.' });
+
+    const jwtToken = jwt.sign(
+      { id: user.id, username: user.username, type },
+      jwtSecret,
+      { expiresIn: '1h' }
+    );
+
+    res.status(201).json({ message: 'Account created successfully.', token: jwtToken });
   } catch (error) {
     console.error('Error during Google signup:', error);
     res.status(500).json({ message: 'Internal server error.' });
@@ -124,14 +149,14 @@ export const login: RequestHandler = async (req, res): Promise<void> => {
   try {
     const student = await drizzleDb
       .select()
-      .from(studentsTable)
-      .where(eq(studentsTable.username, username))
+      .from(students)
+      .where(eq(students.username, username))
       .then((rows) => rows[0]);
 
     const organization = await drizzleDb
       .select()
-      .from(organizationsTable)
-      .where(eq(organizationsTable.username, username))
+      .from(organizations)
+      .where(eq(organizations.username, username))
       .then((rows) => rows[0]);
 
     const user = student || organization;

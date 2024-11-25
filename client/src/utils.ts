@@ -1,4 +1,4 @@
-import { Conversation } from "./types/types";
+import { Conversation, UserType } from "./types/types";
 
 const API_URL = "http://localhost:8080"
 
@@ -7,8 +7,8 @@ const API_URL = "http://localhost:8080"
  *
  * @returns a list of conversations sorted by most recent first
  */
-export const getMessages = async (): Promise<Conversation[]> => {
-    const resp = await fetch(`${API_URL}/messages`);
+export const getMessages = async (userType: UserType, userId: number): Promise<Conversation[]> => {
+    const resp = await fetch(`${API_URL}/messages/${userType}/${userId}`);
     return resp.json();
 }
 
@@ -19,12 +19,18 @@ export const getMessages = async (): Promise<Conversation[]> => {
  * @param content the content of the message
  * @returns the json response from the POST
  */
-export const sendMessage = async (recipientId: string, content: string) => {
-    const resp = await fetch(`${API_URL}/messages`, 
-        { 
+export const sendMessage = async (author: UserType, studentId: number, organizationId: number, content: string) => {
+    const resp = await fetch(`${API_URL}/messages`,
+        {
             method: "POST",
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
-                recipientId,
+                studentId,
+                organizationId,
+                author,
                 content
             })
         }

@@ -1,13 +1,20 @@
+export enum UserType {
+    STUDENT = "student",
+    ORGANIZATION = "organization"
+};
+
 export type Conversation = {
     otherParticipant: {
-        id: string;
-        name: string;
+        id: number;
+        username: string;
     },
     messages: Array<{
-        recipientId: string,
         content: string,
         date: Date,
-        authorId: string,
+        organizationId: number,
+        studentId: number,
+        author: UserType,
         id: string
     }>
-}
+};
+
