@@ -1,14 +1,18 @@
+/* Sidebar styles */
 .sidebar {
+    background-color: #f9f9f9;
+    /* Light background for contrast */
+    width: 300px;
+    height: 100%;
     position: fixed;
     top: 0;
     right: 0;
-    width: 250px;
-    height: 100%;
-    background-color: #f4f4f4;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
     transform: translateX(100%);
     transition: transform 0.3s ease;
-    padding: 20px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    color: black;
+    /* Ensure all text is black */
 }
 
 .sidebar.open {
@@ -16,54 +20,55 @@
 }
 
 .close-button {
-    background-color: #ff4d4d;
-    color: white;
+    background: transparent;
     border: none;
-    padding: 10px;
+    color: black;
+    /* Button text color */
+    font-size: 16px;
     cursor: pointer;
-    margin-bottom: 20px;
+    padding: 10px;
+    text-align: left;
 }
 
-h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+h2,
+h3,
+p {
+    color: black;
+    /* Text in headings and paragraphs */
+    margin: 10px 0;
 }
 
 .selected-event-card {
-    margin-bottom: 10px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    border: 1px solid #ccc;
     padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
 }
 
-.selected-event {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.selected-event h3 {
-    font-size: 1.2rem;
-    margin: 0 0 5px;
-}
-
-.selected-event p {
+.selected-event-card h3 {
+    font-size: 18px;
     margin: 5px 0;
-    font-size: 0.9rem;
+    color: black;
+    /* Event name */
 }
 
-.selected-event button {
-    margin-top: 10px;
-    padding: 5px 10px;
+.selected-event-card p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: black;
+    /* Event details */
+}
+
+.selected-event-card button {
     background-color: #ff4d4d;
-    color: white;
     border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 0.9rem;
-    border-radius: 5px;
 }
 
-.selected-event button:hover {
-    background-color: #ff1a1a;
+.selected-event-card button:hover {
+    background-color: #cc0000;
 }

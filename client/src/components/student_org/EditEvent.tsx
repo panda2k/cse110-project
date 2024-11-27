@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import "../../styles/EditEvent.css";
+import { AuthContext } from '../../context/AuthContext';
 
 interface Event {
+    orgName: string;
     eventID?: string;
     eventName: string;
-    eventTime: string;
+    eventStartTime: string;
+    eventEndTime: string;
     eventDate: string;
     eventLocation: string;
     description: string;
-    image?: string | null; // New property for the image URL
+    image?: string | null;
+    url?: string;
+    orgID?: string;
 }
 
 // Define the props that EditEvent component will receive
@@ -19,6 +24,7 @@ interface EditEventProps {
 }
 
 const EditEvent: React.FC<EditEventProps> = ({ event, onSave, onCancel }) => {
+    const { user } = useContext(AuthContext);
     // Local state to track changes made to the event during editing
     const [editedEvent, setEditedEvent] = useState<Event>(event);
 
@@ -32,20 +38,26 @@ const EditEvent: React.FC<EditEventProps> = ({ event, onSave, onCancel }) => {
         e.preventDefault(); // Prevent page reload on form submission
 
         const eventData: Event = {
+            orgName: event.orgName,
             eventID: event.eventID,
             eventName: editedEvent.eventName,
-            eventTime: editedEvent.eventTime,
+            eventStartTime: editedEvent.eventStartTime,
+            eventEndTime: editedEvent.eventStartTime,
             eventDate: editedEvent.eventDate,
             description: editedEvent.description,
             eventLocation: editedEvent.eventLocation,
+            url: editedEvent.url,
+            image: event.image
         };
 
         const eventData_json = {
             title: editedEvent.eventName,
-            time: editedEvent.eventTime,
+            startTime: editedEvent.eventStartTime,
+            endTime: editedEvent.eventEndTime,
             location: editedEvent.eventLocation,
             description: editedEvent.description,
             date: editedEvent.eventDate,
+            url: editedEvent.url
         }
         try {
             // Make PUT request to the backend to update the event
@@ -82,11 +94,21 @@ const EditEvent: React.FC<EditEventProps> = ({ event, onSave, onCancel }) => {
                 />
             </label>
             <label>
-                Event Time:
+                Event Start Time:
                 <input
                     type="text"
-                    name="eventTime"
-                    value={editedEvent.eventName}
+                    name="eventStartTime"
+                    value={editedEvent.eventStartTime}
+                    onChange={handleChange}
+                    required
+                />
+            </label>
+            <label>
+                Event End Time:
+                <input
+                    type="text"
+                    name="eventEndTime"
+                    value={editedEvent.eventEndTime}
                     onChange={handleChange}
                     required
                 />
@@ -119,6 +141,16 @@ const EditEvent: React.FC<EditEventProps> = ({ event, onSave, onCancel }) => {
                     onChange={handleChange}
                     required
                 ></textarea>
+            </label>
+            <label>
+                Event URL:
+                <input
+                    type="text"
+                    name="eventURL"
+                    value={editedEvent.url}
+                    onChange={handleChange}
+                    required
+                />
             </label>
             <button type="submit">Save Changes</button>
             <button type="button" onClick={onCancel}>Cancel</button>

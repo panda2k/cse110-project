@@ -1,19 +1,24 @@
 import { Request, Router } from "express";
-import { db } from "../db/db";
+import { drizzleDb as db } from "../db/db";
 import { events, userEvents } from "../db/schema";
 import { desc, eq, InferSelectModel } from "drizzle-orm";
 
 export const eventRoutes = Router();
 
-eventRoutes.post("", async (req: Request<{}, {}, { title: string, location: string, description: string, date: string, time: string }>, res) => {
+eventRoutes.post("", async (req: Request<{}, {}, { orgName: string, title: string, location: string, description: string, date: string, startTime: string, endTime: string, image: string, url: string, orgID: string }>, res) => {
     try {
         console.log("Request Body:", req.body);
         await db.insert(events).values({
+            orgName: req.body.orgName,
             title: req.body.title,
-            time: req.body.time,
+            startTime: req.body.startTime,
+            endTime: req.body.endTime,
             location: req.body.location,
             description: req.body.description,
             date: req.body.date,
+            url: req.body.url,
+            image: req.body.image,
+            orgID: req.body.orgID
         });
         res.status(200).send({ message: "Event created successfully!" });
     } catch (error) {
@@ -36,32 +41,29 @@ eventRoutes.get("", async (req, res) => {
     }
 });
 
-/**
- * GET: Retrieve events specific to a user (Optional - only if user-specific events are needed)
- * Requires `userId` query parameter.
- */
-// eventRoutes.get("/user", async (req, res) => {
-//     const userId = req.query.userId as string;
+eventRoutes.get("/:orgID", async (req, res) => {
+    const { orgID } = req.params;  // Get the orgID from the route parameters
 
-//     if (!userId) {
-//         res.status(400).send({ error: "Missing userId query parameter" });
-//         return;
-//     }
+    try {
+        // Fetch events that match the given orgID
+        const eventsByOrgID = await db.select().from(events).where(eq(events.orgID, orgID)).orderBy(desc(events.date));
 
-//     try {
-//         const userEvents = await db.select().from(events).where(eq(events.userId, userId)).orderBy(desc(events.date));
-//         res.json(userEvents);
-//     } catch (error) {
-//         console.error("Error retrieving user events:", error);
-//         res.status(500).send({ error: "Failed to retrieve user events" });
-//     }
-// });
+        // Return the filtered events
+        res.json(eventsByOrgID); // This is the final response, return it here
+    } catch (error) {
+        console.error("Error retrieving events:", error);
+        // Ensure that an error response is sent only once
+        if (!res.headersSent) {
+            res.status(500).send({ error: "Failed to retrieve events" });
+        }
+    }
+});
 
-eventRoutes.put("/:eventId", async (req: Request<{ eventId: string }, {}, { title: string; description: string; date: number, location: string, time: string }>, res) => {
+eventRoutes.put("/:eventId", async (req: Request<{ eventId: string }, {}, { title: string, location: string, description: string, date: string, startTime: string, endTime: string, url: string }>, res) => {
     const { eventId } = req.params;
-    const { title, description, date, location, time } = req.body;
+    const { title, description, date, location, startTime, endTime, url } = req.body;
 
-    if (!title && !description && !date && !location) {
+    if (!title && !description && !date && !location && !startTime && !endTime && !url) {
         // res.status(400).send({ error: "No fields to update" });
     }
 
@@ -76,7 +78,9 @@ eventRoutes.put("/:eventId", async (req: Request<{ eventId: string }, {}, { titl
         if (location) updatedFields.location = location;
         if (description) updatedFields.description = description;
         if (date) updatedFields.date = date;
-        if (time) updatedFields.time = time;
+        if (startTime) updatedFields.startTime = startTime;
+        if (endTime) updatedFields.endTime = endTime;
+        if (url) updatedFields.url = url;
 
         await db.update(events).set(updatedFields).where(eq(events.id, eventId));
 

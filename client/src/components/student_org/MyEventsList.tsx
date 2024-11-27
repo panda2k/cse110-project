@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import '../../styles/MyEventsList.css';
 import EditEvent from './EditEvent';
+import { AuthContext } from '../../context/AuthContext';
 
 interface Event {
+    orgName: string;
     eventID?: string;
     eventName: string;
-    eventTime: string;
+    eventStartTime: string;
+    eventEndTime: string;
     eventDate: string;
     eventLocation: string;
     description: string;
     image?: string | null;
+    url?: string;
+    orgID?: string;
 }
 
 interface MyEventsListProps {
@@ -19,6 +24,7 @@ interface MyEventsListProps {
 }
 
 const MyEventsList: React.FC<MyEventsListProps> = ({ events, onEditEvent, onDeleteEvent }) => {
+    const { user } = useContext(AuthContext);
     const [isEditingIndex, setIsEditingIndex] = useState<number | null>(null);
 
     const handleEditClick = (index: number) => {
@@ -73,12 +79,14 @@ const MyEventsList: React.FC<MyEventsListProps> = ({ events, onEditEvent, onDele
                     ) : (
                         <div className="card-content">
                             {event.image && <img src={event.image} alt={`${event.eventName} image`} className="event-image" />}
+                            <h3>{event.orgName}</h3>
                             <h3>{event.eventName}</h3>
-                            <p><strong>Event Time:</strong> {event.eventTime}</p>
+                            <p><strong>Event Start Time:</strong> {event.eventStartTime}</p>
+                            <p><strong>Event End Time:</strong> {event.eventEndTime}</p>
                             <p><strong>Date:</strong> {event.eventDate}</p>
                             <p><strong>Location:</strong> {event.eventLocation}</p>
                             <p><strong>Description:</strong> {event.description}</p>
-                            <p><strong>RSVP Count: </strong></p>
+                            <p><strong>URL: </strong> {event.url}</p>
                         </div>
                     )}
                 </div>

@@ -1,5 +1,23 @@
+CREATE TABLE `events` (
+	`id` text(255) PRIMARY KEY NOT NULL,
+	`title` text(255) NOT NULL,
+	`time` text(255) NOT NULL,
+	`description` text(10000) NOT NULL,
+	`date` text(255) NOT NULL,
+	`location` text(5000) NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE `messages` (
+	`id` text(255) PRIMARY KEY NOT NULL,
+	`content` text(10000) NOT NULL,
+	`date` integer DEFAULT (current_timestamp) NOT NULL,
+	`studentId` integer NOT NULL,
+	`organizationId` integer NOT NULL,
+	`author` text NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE `organizations` (
-	`id` text PRIMARY KEY NOT NULL,
+	`id` integer PRIMARY KEY NOT NULL,
 	`username` text NOT NULL,
 	`password` text,
 	`google_id` text,
@@ -9,7 +27,7 @@ CREATE TABLE `organizations` (
 CREATE UNIQUE INDEX `organizations_username_unique` ON `organizations` (`username`);--> statement-breakpoint
 CREATE UNIQUE INDEX `organizations_google_id_unique` ON `organizations` (`google_id`);--> statement-breakpoint
 CREATE TABLE `students` (
-	`id` text PRIMARY KEY NOT NULL,
+	`id` integer PRIMARY KEY NOT NULL,
 	`username` text NOT NULL,
 	`password` text,
 	`google_id` text,
@@ -18,18 +36,10 @@ CREATE TABLE `students` (
 --> statement-breakpoint
 CREATE UNIQUE INDEX `students_username_unique` ON `students` (`username`);--> statement-breakpoint
 CREATE UNIQUE INDEX `students_google_id_unique` ON `students` (`google_id`);--> statement-breakpoint
-DROP TABLE `users`;--> statement-breakpoint
-PRAGMA foreign_keys=OFF;--> statement-breakpoint
-CREATE TABLE `__new_user_events` (
+CREATE TABLE `user_events` (
 	`id` text(255) PRIMARY KEY NOT NULL,
-	`userId` text(255) NOT NULL,
+	`userId` integer NOT NULL,
 	`eventId` text(255) NOT NULL,
 	FOREIGN KEY (`userId`) REFERENCES `students`(`id`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`eventId`) REFERENCES `events`(`id`) ON UPDATE no action ON DELETE cascade
 );
---> statement-breakpoint
-INSERT INTO `__new_user_events`("id", "userId", "eventId") SELECT "id", "userId", "eventId" FROM `user_events`;--> statement-breakpoint
-DROP TABLE `user_events`;--> statement-breakpoint
-ALTER TABLE `__new_user_events` RENAME TO `user_events`;--> statement-breakpoint
-PRAGMA foreign_keys=ON;--> statement-breakpoint
-ALTER TABLE `events` ADD `time` text(255) NOT NULL;

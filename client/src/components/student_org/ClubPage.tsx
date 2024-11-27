@@ -1,35 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import "../../styles/ClubPage.css";
 import MyEventsList from './MyEventsList';
 import EventForm from './EventForm';
-import { fetchEvents } from '../../utils/event-utils'; // Import the fetchEvents method
+import { fetchEventsByID } from '../../utils/event-utils'; // Import the fetchEvents method
+import { AuthContext } from '../../context/AuthContext';
 
 interface Event {
     eventID?: string;
+    orgName: string;
     eventName: string;
-    eventTime: string;
+    eventStartTime: string;
+    eventEndTime: string;
     eventDate: string;
     eventLocation: string;
     description: string;
     image?: string | null;
+    url?: string;
+    orgID?: string;
 }
 
 const ClubPage: React.FC = () => {
+    const { user } = useContext(AuthContext);
+    console.log(user);
     const [events, setEvents] = useState<Event[]>([]);
 
     // Fetch events from the API when the component mounts
     useEffect(() => {
         const getEvents = async () => {
             try {
-                const eventsData = await fetchEvents(); // Use the fetchEvents function
+                const eventsData = await fetchEventsByID(String(user.id)); // Use the fetchEvents function
                 console.log(eventsData);
                 const transformedEvents: Event[] = eventsData.map((item: any) => ({
+                    orgName: item.orgName,
                     eventID: item.id,               // Map `id` to `eventID`
                     eventName: item.title,          // Map `title` to `eventName`
-                    eventTime: item.time,
+                    eventStartTime: item.startTime,
+                    eventEndTime: item.endTime,
                     eventDate: item.date,           // Map `date` to `eventDate`
                     eventLocation: item.location,   // Map `location` to `eventLocation`
                     description: item.description,  // Map `description`
+                    image: item.image,
+                    url: item.url,
+                    orgID: item.orgID
                 }));
                 setEvents(transformedEvents); // Set the fetched events in state
             } catch (error) {
@@ -37,7 +49,7 @@ const ClubPage: React.FC = () => {
             }
         };
         getEvents();
-    }, []);
+    }, [user]);
 
     const handleAddEvent = (newEvent: Event) => {
         setEvents([...events, newEvent]);

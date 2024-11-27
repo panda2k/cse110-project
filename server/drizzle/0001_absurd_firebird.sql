@@ -1,1 +1,0 @@
-ALTER TABLE `messages` ADD `authorId` integer NOT NULL;

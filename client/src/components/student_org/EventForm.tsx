@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import '../../styles/EventForm.css';
+import { AuthContext } from '../../context/AuthContext';
 
 interface Event {
+    orgName: string;
     eventID?: string;
     eventName: string;
-    eventTime: string;
+    eventStartTime: string;
+    eventEndTime: string;
     eventDate: string;
     eventLocation: string;
     description: string;
     image?: string | null;
+    url?: string;
+    orgID?: string;
 }
 
 interface EventFormProps {
@@ -16,12 +21,16 @@ interface EventFormProps {
 }
 
 const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
+    const { user } = useContext(AuthContext);
+    const [orgName, setOrgName] = useState<string>('');
     const [eventName, setEventName] = useState<string>('');
-    const [eventTime, setEventTime] = useState<string>('');
+    const [eventStartTime, setEventStartTime] = useState<string>('');
+    const [eventEndTime, setEventEndTime] = useState<string>('');
     const [eventDate, setEventDate] = useState<string>('');
     const [eventLocation, setEventLocation] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [image, setImage] = useState<string | null>(null);
+    const [url, setURL] = useState<string>('');
 
     // Handle file input for image
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,20 +48,28 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
         e.preventDefault();
 
         const eventData: Event = {
+            orgName: orgName,
             eventName: eventName,
-            eventTime: eventTime,
+            eventStartTime: eventStartTime,
+            eventEndTime: eventEndTime,
             eventDate: eventDate,
             description: description,
             eventLocation: eventLocation,
             image: image,
+            url: url
         };
 
         const eventData_json = {
+            orgName: orgName,
             title: eventName,
-            time: eventTime,
+            startTime: eventStartTime,
+            endTime: eventEndTime,
             location: eventLocation,
             description: description,
             date: eventDate,
+            image: image,
+            url: url,
+            orgID: user.id
         }
 
         try {
@@ -83,6 +100,9 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
         setEventDate('');
         setEventLocation('');
         setDescription('');
+        setEventStartTime('');
+        setEventEndTime('');
+        setOrgName('');
         setImage(null);
     };
 
@@ -90,6 +110,16 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
         <div className="event-form-card">
             <form onSubmit={handleSubmit}>
                 <h2>Create Event</h2>
+                <div>
+                    <label htmlFor="orgName">Organization Name:</label>
+                    <input
+                        type="text"
+                        id="orgName"
+                        value={orgName}
+                        onChange={(e) => setOrgName(e.target.value)}
+                        required
+                    />
+                </div>
                 <div>
                     <label htmlFor="eventName">Event Name:</label>
                     <input
@@ -101,12 +131,22 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="eventTime">Event Time:</label>
+                    <label htmlFor="eventStartTime">Event Start Time:</label>
                     <input
                         type="time"
-                        id="eventTime"
-                        value={eventTime}
-                        onChange={(e) => setEventTime(e.target.value)}
+                        id="eventStartTime"
+                        value={eventStartTime}
+                        onChange={(e) => setEventStartTime(e.target.value)}
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="eventEmdTime">Event End Time:</label>
+                    <input
+                        type="time"
+                        id="eventEndTime"
+                        value={eventEndTime}
+                        onChange={(e) => setEventEndTime(e.target.value)}
                         required
                     />
                 </div>
@@ -146,6 +186,16 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
                         id="image"
                         accept="image/*"
                         onChange={handleImageChange}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="url">URL:</label>
+                    <input
+                        type="text"
+                        id="url"
+                        value={url}
+                        onChange={(e) => setURL(e.target.value)}
+                        required
                     />
                 </div>
                 <button type="submit">Publish Event</button>
