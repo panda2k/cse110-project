@@ -1,0 +1,1 @@
+ALTER TABLE `events` ADD `image` text(10000) NOT NULL;

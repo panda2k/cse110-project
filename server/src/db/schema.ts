@@ -9,7 +9,8 @@ export const events = sqliteTable("events", {
     title: text("title", { length: 255 }).notNull(),
     description: text("description", { length: 10000 }).notNull(),
     date: int("date", { mode: "timestamp" }).notNull(),
-    image: text("image", {length: 10000}).notNull()
+    image: text("image", {length: 10000}).notNull(),
+    tags: text("tags", {length: 1000})
 })
 
 export const rsvp = sqliteTable("rsvp", {
@@ -29,5 +30,5 @@ export const users = sqliteTable("users", {
     firstName: text("firstName", { length: 255 }).notNull(),
     lastName: text("lastName", { length: 255 }).notNull(),
     userName: text("userName", { length: 255 }).notNull(),
-    prefrences: text("prefrences", {length: 255}).notNull()
+    preferences: text("preferences", {length: 255}).notNull()
 })

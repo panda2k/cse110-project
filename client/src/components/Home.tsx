@@ -1,7 +1,7 @@
 import "../styles/App.css";
 import "../styles/Home.css";
 import React, { useEffect, useState } from "react";
-import { getEvents, postRSVP } from "../utils/event-utils"; // Import utility functions
+import { deleteRSVP, getEvents, postRSVP } from "../utils/event-utils"; // Import utility functions
 import { Events } from "../types/event"; // Assuming this is where Event type is defined
 
 export const NewEvents = () => {
@@ -66,18 +66,21 @@ export const NewEvents = () => {
 
     // Send RSVP to the database and toggle registration
     const toggleRegistration = async (eventId: string) => {
-        const userName = "current_user"; // Replace with actual logged-in username
+        const userName = "johndoe"; // Replace with actual logged-in username Hardcoded for now
 
         const isRegistered = registeredEvents[eventId];
 
         try {
             if (!isRegistered) {
-                await postRSVP(eventId, userName); // Use the utility function to send RSVP
+                await postRSVP(eventId, userName);
             }
-            setRegisteredEvents(prev => ({
-                ...prev,
+            else{
+                await deleteRSVP(eventId,userName);
+            }
+            setRegisteredEvents({
+                ...registeredEvents,
                 [eventId]: !isRegistered, // Toggle registration status locally
-            }));
+            });
         } catch (error) {
             console.error("Error toggling registration:", error);
         }
@@ -136,13 +139,14 @@ export const NewEvents = () => {
             </header>
             <div className="body">
                 <div className="Eventsgrid">
+
                     {/* Registered Events */}
                     {registeredEventsList.length > 0 && (
                         <div className="registered-events-container">
                             {registeredEventsList.map(event => (
                                 <div key={event.id} className="registered-event-box">
                                     <h5>{event.title}</h5>
-                                    <p>Date: {event.date}</p>
+                                    <p>Date: {event.monthDay}</p>
                                     <p>Time: {event.time}</p>
                                 </div>
                             ))}
@@ -152,7 +156,7 @@ export const NewEvents = () => {
                     {/* Main Event Grid */}
                     {filteredEvents.map((event) => (
                         <div key={event.id} className="events-list" onClick={() => handleNoteClick(event)}>
-                            <img src={event.image} alt={event.title} className="event-image" />
+                            <img src={event.image} alt={event.title} className="event-image" /> {/* Poster images*/}
                         </div>
                     ))}
                 </div>
@@ -164,7 +168,7 @@ export const NewEvents = () => {
                     <div className="popup-content" onClick={(e) => e.stopPropagation()}>
                         <button className="close-button" onClick={closePopup}>X</button>
                         <h2>{selectedEvent.title}</h2>
-                        <h4>Date: {selectedEvent.date}</h4>
+                        <h4>Date: {selectedEvent.monthDay}</h4>
                         <h4>Time: {selectedEvent.time}</h4>
                         <div className="popup-desc">
                             <p>{selectedEvent.description}</p>

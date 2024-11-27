@@ -1,0 +1,1 @@
+ALTER TABLE `events` ALTER COLUMN "date" TO "date" text(1000) NOT NULL;

@@ -2,7 +2,7 @@ export type Events = {
     id: number; 
 	title: string;
 	description: string;
-	date?: string;
-	time?: string;
-	image?: string;
+	monthDay: string;
+	time: string;
+	image: string;
 }
