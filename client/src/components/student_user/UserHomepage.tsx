@@ -90,6 +90,7 @@ const UserHomepage: React.FC = () => {
                     addEventToSidebar={addEventToSidebar}
                     removeEventFromSidebar={removeEventFromSidebar}
                     rsvpStatus={rsvpStatus}
+                    selectedEvents={selectedEvents}
                 />
                 <button className="toggle-button" onClick={toggleSidebar}>
                     ☰

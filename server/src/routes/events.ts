@@ -2,6 +2,8 @@ import { Request, Router } from "express";
 import { drizzleDb as db } from "../db/db";
 import { events, userEvents } from "../db/schema";
 import { desc, eq, InferSelectModel } from "drizzle-orm";
+// import multer from "multer";
+// import path from "path";
 
 export const eventRoutes = Router();
 

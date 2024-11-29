@@ -21,8 +21,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar, selectedEvents
             {selectedEvents.map((event) => (
                 <div className="selected-event-card" key={event.eventName}>
                     <h3>{event.eventName}</h3>
-                    <p>{event.eventStartTime}</p>
-                    <p>{event.eventEndTime}</p>
+                    <p>{event.eventStartTime} - {event.eventEndTime}</p>
                     <p>{event.eventDate}</p>
                     <p>{event.eventLocation}</p>
                     <button onClick={() => removeEventFromSidebar(event)}>Remove</button>
