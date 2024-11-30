@@ -1,17 +1,29 @@
+/* Match the card styles */
 .event-form-card {
-  background-color: white;
-  border-radius: 15px;
+  background-color: #fff;
+  /* Match background color */
+  border-radius: 8px;
+  /* Use same border radius */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 30px;
-  margin-right: 20px;
-  max-width: 400px;
-  border: 1px solid #e0e0e0;
+  /* Match shadow */
+  border: 1px solid #ddd;
+  /* Match border */
+  padding: 16px;
+  /* Reduce padding to match */
+  margin: 10px;
+  /* Adjust margin for spacing */
+  max-width: 300px;
+  /* Match card width */
 }
 
 .events-list {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-wrap: wrap;
+  /* Allows wrapping to a new row if space runs out */
+  gap: 20px;
+  /* Adds space between cards */
+  justify-content: center;
+  /* Aligns cards in the center */
   width: 100%;
 }
 
@@ -20,14 +32,89 @@
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 15px;
-  margin: 10px 0;
-  width: 100%;
-  max-width: 400px;
+  margin: 0;
+  /* Remove top and bottom margin since gap handles spacing */
+  width: 300px;
+  /* Adjust width to align with EventsCardList */
+  max-width: 100%;
 }
 
 .event-image {
   width: 100%;
-  height: auto;
+  height: 200px;
+  /* Match height */
+  object-fit: cover;
+  /* Ensure consistent image display */
+  border-bottom: 1px solid #ddd;
+  /* Add border for separation */
+}
+
+.card-content {
+  padding: 16px;
+  /* Add padding for content */
+  color: #333;
+  /* Set text color */
+}
+
+h3 {
+  margin-top: 0;
+  /* Remove top margin */
+  color: #333;
+  /* Match color */
+  font-size: 1.5em;
+  /* Match font size */
+}
+
+.rsvp-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
   border-radius: 8px;
-  margin-bottom: 10px;
+  /* Match rounded corners */
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.rsvp-button:hover {
+  background-color: #0056b3;
+}
+
+/* Optional: Match active RSVP state styles */
+.rsvp-button.rsvp-active {
+  background-color: #28a745;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 50%;
+  max-width: 800px;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
 }

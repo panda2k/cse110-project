@@ -45,8 +45,8 @@ const Upcoming = () => {
                 </div>
                 <ul className="nav-links">
                     <li><a href="/user-homepage">HOME</a></li>
-                    <li><a href="#Explore">EXPLORE</a></li>
-                    <li><a href="#Upcoming">UPCOMING</a></li>
+                    <li><a href="/user-explore">EXPLORE</a></li>
+                    <li><a href="/upcoming">UPCOMING</a></li>
                 </ul>
             </header>
 

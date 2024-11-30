@@ -134,8 +134,8 @@ export const Home = () => {
                     />
                 </div>
                 <ul className="nav-links">
-                    <li><a href="#ForYou">FOR YOU</a></li>
-                    <li><a href="#Explore">EXPLORE</a></li>
+                    <li><a href="/user-homepage">FOR YOU</a></li>
+                    <li><a href="/user-explore">EXPLORE</a></li>
                     <li><a href="/upcoming">UPCOMING</a></li>
                 </ul>
                 <button className="Message-button">

@@ -32,13 +32,12 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
     const [image, setImage] = useState<string | null>(null);
     const [url, setURL] = useState<string>('');
 
-    // Handle file input for image
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setImage(reader.result as string); // Store image as base64 string
+                setImage(reader.result as string);
             };
             reader.readAsDataURL(file);
         }
@@ -48,90 +47,100 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
         e.preventDefault();
 
         const eventData: Event = {
-            orgName: orgName,
-            eventName: eventName,
-            eventStartTime: eventStartTime,
-            eventEndTime: eventEndTime,
-            eventDate: eventDate,
-            description: description,
-            eventLocation: eventLocation,
-            image: image,
-            url: url
+            orgName,
+            eventName,
+            eventStartTime,
+            eventEndTime,
+            eventDate,
+            description,
+            eventLocation,
+            image,
+            url,
         };
 
         const eventData_json = {
-            orgName: orgName,
+            orgName,
             title: eventName,
             startTime: eventStartTime,
             endTime: eventEndTime,
             location: eventLocation,
-            description: description,
+            description,
             date: eventDate,
-            image: image,
-            url: url,
-            orgID: user.id
-        }
+            image,
+            url,
+            orgID: user.id,
+        };
 
         try {
             const response = await fetch("http://localhost:8080/events/", {
-                method: "POST",  // Send POST request
-                headers: {
-                    "Content-Type": "application/json",  // Set the request content type
-                },
-                body: JSON.stringify(eventData_json),  // Send data as JSON
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(eventData_json),
             });
 
             if (response.ok) {
                 const data = await response.json();
-                alert(data.message); // Show success message
+                alert(data.message);
                 onAddEvent(eventData);
                 window.location.reload();
             } else {
                 const errorData = await response.json();
-                alert("Error: " + errorData.error); // Show error message
+                alert("Error: " + errorData.error);
             }
         } catch (error) {
             console.error("Error:", error);
             alert("An unexpected error occurred.");
         }
 
-        // Reset the form fields
+        setOrgName('');
         setEventName('');
         setEventDate('');
         setEventLocation('');
         setDescription('');
         setEventStartTime('');
         setEventEndTime('');
-        setOrgName('');
         setImage(null);
+        setURL('');
     };
 
     return (
-        <div className="event-form-card">
-            <form onSubmit={handleSubmit}>
-                <h2>Create Event</h2>
+        <form onSubmit={handleSubmit} className="event-form">
+            <h2>Create Event</h2>
+            <div className="form-row">
+                <label htmlFor="orgName">Organization Name:</label>
+                <input
+                    type="text"
+                    id="orgName"
+                    value={orgName}
+                    onChange={(e) => setOrgName(e.target.value)}
+                    required
+                />
+            </div>
+            <div className="form-row">
+                <label htmlFor="eventName">Event Name:</label>
+                <input
+                    type="text"
+                    id="eventName"
+                    value={eventName}
+                    onChange={(e) => setEventName(e.target.value)}
+                    required
+                />
+            </div>
+            <div className="form-row-inline">
                 <div>
-                    <label htmlFor="orgName">Organization Name:</label>
+                    <label htmlFor="eventDate">Date:</label>
                     <input
-                        type="text"
-                        id="orgName"
-                        value={orgName}
-                        onChange={(e) => setOrgName(e.target.value)}
+                        type="date"
+                        id="eventDate"
+                        value={eventDate}
+                        onChange={(e) => setEventDate(e.target.value)}
                         required
                     />
                 </div>
+            </div>
+            <div className="form-row-inline">
                 <div>
-                    <label htmlFor="eventName">Event Name:</label>
-                    <input
-                        type="text"
-                        id="eventName"
-                        value={eventName}
-                        onChange={(e) => setEventName(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="eventStartTime">Event Start Time:</label>
+                    <label htmlFor="eventStartTime">Start Time:</label>
                     <input
                         type="time"
                         id="eventStartTime"
@@ -141,7 +150,7 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="eventEmdTime">Event End Time:</label>
+                    <label htmlFor="eventEndTime">End Time:</label>
                     <input
                         type="time"
                         id="eventEndTime"
@@ -150,42 +159,25 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
                         required
                     />
                 </div>
+            </div>
+            <div className="form-row">
+                <label htmlFor="description">Description:</label>
+                <textarea
+                    id="description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    required
+                ></textarea>
+            </div>
+            <div className="form-row-inline">
                 <div>
-                    <label htmlFor="eventDate">Event Date:</label>
-                    <input
-                        type="date"
-                        id="eventDate"
-                        value={eventDate}
-                        onChange={(e) => setEventDate(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="eventLocation">Event Location:</label>
+                    <label htmlFor="eventLocation">Location:</label>
                     <input
                         type="text"
                         id="eventLocation"
                         value={eventLocation}
                         onChange={(e) => setEventLocation(e.target.value)}
                         required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="description">Description:</label>
-                    <textarea
-                        id="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        required
-                    ></textarea>
-                </div>
-                <div>
-                    <label htmlFor="image">Upload Image:</label>
-                    <input
-                        type="file"
-                        id="image"
-                        accept="image/*"
-                        onChange={handleImageChange}
                     />
                 </div>
                 <div>
@@ -198,9 +190,18 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
                         required
                     />
                 </div>
-                <button type="submit">Publish Event</button>
-            </form>
-        </div>
+            </div>
+            <div className="form-row">
+                <label htmlFor="image">Upload Image:</label>
+                <input
+                    type="file"
+                    id="image"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                />
+            </div>
+            <button type="submit">Publish Event</button>
+        </form>
     );
 };
 

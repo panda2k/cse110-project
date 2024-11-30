@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import "../../styles/ClubPage.css";
+import "../../styles/Home.css";
 import MyEventsList from './MyEventsList';
 import EventForm from './EventForm';
 import { fetchEventsByID } from '../../utils/event-utils'; // Import the fetchEvents method
@@ -67,18 +67,36 @@ const ClubPage: React.FC = () => {
     };
 
     return (
+
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-            <div style={{ flex: '1', marginRight: '20px' }}>
+            <header id="Navigationbar">
+                <div className="Searchbar">
+                    <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Seal_of_the_University_of_California%2C_San_Diego.svg/300px-Seal_of_the_University_of_California%2C_San_Diego.svg.png"
+                        alt="Logo"
+                    />
+                </div>
+                <ul className="nav-links">
+                    <li><a href="/club-page">DASHBOARD</a></li>
+                    <li><a href="/explore">EXPLORE</a></li>
+                </ul>
+                <button className="Message-button">
+                </button>
+            </header>
+            {/* <div style={{ flex: '1', marginRight: '20px' }}>
                 <h1>Event Management</h1>
                 <EventForm onAddEvent={handleAddEvent} />
-            </div>
-            <div style={{ flex: '1' }}>
-                {/* Pass the events data to MyEventsList */}
-                <MyEventsList
-                    events={events}          // Pass fetched events as a prop
-                    onEditEvent={handleEditEvent}  // Pass edit handler
-                    onDeleteEvent={handleDeleteEvent}  // Pass delete handler
-                />
+            </div> */}
+            <div className="body">
+                <div style={{ flex: '1' }}>
+                    {/* Pass the events data to MyEventsList */}
+                    <MyEventsList
+                        events={events}          // Pass fetched events as a prop
+                        onEditEvent={handleEditEvent}  // Pass edit handler
+                        onDeleteEvent={handleDeleteEvent}  // Pass delete handler
+                        onAddEvent={handleAddEvent}
+                    />
+                </div>
             </div>
         </div>
     );
