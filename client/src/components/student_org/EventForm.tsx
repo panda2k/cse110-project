@@ -59,30 +59,49 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
         };
 
         const eventData_json = {
-            orgName,
+            orgName: orgName,
             title: eventName,
             startTime: eventStartTime,
             endTime: eventEndTime,
             location: eventLocation,
-            description,
+            description: description,
             date: eventDate,
             image,
-            url,
+            url: url,
             orgID: user.id,
         };
+        const formData = new FormData();
+        formData.append("orgName", orgName);
+        formData.append("title", eventName);
+        formData.append("startTime", eventStartTime);
+        formData.append("endTime", eventEndTime);
+        formData.append("date", eventDate);
+        formData.append("location", eventLocation);
+        formData.append("description", description);
+        formData.append("url", url);
+        formData.append("orgID", user.id);
+        console.log(image);
+        if (image) {
+            const fileInput = document.querySelector<HTMLInputElement>("#image");
+            console.log(fileInput?.files?.[0]);
+            if (fileInput && fileInput.files?.[0]) {
+                formData.append("image", fileInput.files[0]);
+            }
+        }
+
+        console.log(formData);
 
         try {
             const response = await fetch("http://localhost:8080/events/", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(eventData_json),
+                body: formData,
             });
 
             if (response.ok) {
                 const data = await response.json();
                 alert(data.message);
                 onAddEvent(eventData);
-                window.location.reload();
+                // window.location.reload();
             } else {
                 const errorData = await response.json();
                 alert("Error: " + errorData.error);

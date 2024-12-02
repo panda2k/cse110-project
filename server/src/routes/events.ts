@@ -2,14 +2,25 @@ import { Request, Router } from "express";
 import { drizzleDb as db } from "../db/db";
 import { events, userEvents } from "../db/schema";
 import { desc, eq, InferSelectModel } from "drizzle-orm";
-// import multer from "multer";
-// import path from "path";
+import "multer";
+import path from "path";
+
+const multer = require('multer');
+const upload = multer();
+
+// app.post('/send', upload.any(), (req, res) => {
+//     const formData = req.body;
+//     console.log('form data', formData);
+//     res.sendStatus(200);
+// });
 
 export const eventRoutes = Router();
 
-eventRoutes.post("", async (req: Request<{}, {}, { orgName: string, title: string, location: string, description: string, date: string, startTime: string, endTime: string, image: string, url: string, orgID: string }>, res) => {
+eventRoutes.post("", upload.any(), async (req, res) => {
     try {
         console.log("Request Body:", req.body);
+        console.log("Uploaded File:", req.file);
+        const formData = req.body;
         await db.insert(events).values({
             orgName: req.body.orgName,
             title: req.body.title,
@@ -19,7 +30,7 @@ eventRoutes.post("", async (req: Request<{}, {}, { orgName: string, title: strin
             description: req.body.description,
             date: req.body.date,
             url: req.body.url,
-            image: req.body.image,
+            image: req.file?.path || null,
             orgID: req.body.orgID
         });
         res.status(200).send({ message: "Event created successfully!" });
@@ -28,6 +39,30 @@ eventRoutes.post("", async (req: Request<{}, {}, { orgName: string, title: strin
         res.status(500).send({ error: "Failed to create event" });
     }
 });
+
+// eventRoutes.post("", async (req: Request<{}, {}, { orgName: string, title: string, location: string, description: string, date: string, startTime: string, endTime: string, image: string, url: string, orgID: string }>, res) => {
+//     try {
+//         console.log("Request Body:", req.body);
+//         console.log("Uploaded File:", req.file);
+
+//         await db.insert(events).values({
+//             orgName: req.body.orgName,
+//             title: req.body.title,
+//             startTime: req.body.startTime,
+//             endTime: req.body.endTime,
+//             location: req.body.location,
+//             description: req.body.description,
+//             date: req.body.date,
+//             url: req.body.url,
+//             image: req.file?.path || null,
+//             orgID: req.body.orgID
+//         });
+//         res.status(200).send({ message: "Event created successfully!" });
+//     } catch (error) {
+//         console.error("Error creating event:", error);
+//         res.status(500).send({ error: "Failed to create event" });
+//     }
+// });
 
 /**
  * GET: Retrieve all events
