@@ -45,21 +45,21 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
                     const canvas = document.createElement("canvas");
                     const ctx = canvas.getContext("2d");
 
-                    // Set the desired width and height (e.g., 500px wide, proportional height)
-                    const maxWidth = 500; // Desired max width
-                    const scale = maxWidth / img.width;
-                    canvas.width = maxWidth;
-                    canvas.height = img.height * scale;
+                    // Set the fixed width and height to 1200 x 1200
+                    const fixedWidth = 1200;
+                    const fixedHeight = 1200;
+                    canvas.width = fixedWidth;
+                    canvas.height = fixedHeight;
 
                     // Draw the image onto the canvas
                     if (ctx) {
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(img, 0, 0, fixedWidth, fixedHeight);
 
-                        // Compress the image to 0.7 quality (70%)
-                        const compressedBase64 = canvas.toDataURL("image/jpeg", 0.7);
+                        // Convert the canvas to a Base64-encoded string without compression
+                        const resizedBase64 = canvas.toDataURL("image/jpeg"); // Default quality
 
-                        // Set the compressed image string
-                        setImage(compressedBase64);
+                        // Set the resized image string
+                        setImage(resizedBase64);
                     }
                 };
             };

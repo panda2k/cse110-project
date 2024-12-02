@@ -112,24 +112,6 @@ const EventCardList: React.FC<EventCardListProps> = ({ addEventToSidebar, remove
                         onClick={() => openModal(event)}
                     >
                         <img src={event.image} alt={event.eventName} className="event-image" />
-                        <div className="card-content">
-                            <h3>{event.orgName}</h3>
-                            <h3>{event.eventName}</h3>
-                            <p><strong>Start Time:</strong> {event.eventStartTime}</p>
-                            <p><strong>End Time:</strong> {event.eventEndTime}</p>
-                            <p><strong>Date:</strong> {event.eventDate}</p>
-                            <p><strong>Location:</strong> {event.eventLocation}</p>
-                            <p><strong>Description:</strong> {event.description}</p>
-                        </div>
-                        <button
-                            className={`rsvp-button ${rsvpStatus[event.eventName] ? 'rsvp-active' : ''}`}
-                            onClick={(e) => {
-                                e.stopPropagation(); // Prevent the card click from triggering the modal
-                                toggleRsvp(event);
-                            }}
-                        >
-                            {rsvpStatus[event.eventName] ? 'Un-RSVP' : 'RSVP'}
-                        </button>
                     </div>
                 ))}
             </div>

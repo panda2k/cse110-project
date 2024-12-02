@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import '../../styles/EventsCardList.css';
+import '../../styles/MyEventsList.css';
 import EditEvent from './EditEvent';
 import EventForm from './EventForm'; // Import the EventForm component
 import { AuthContext } from '../../context/AuthContext';

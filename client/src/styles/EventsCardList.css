@@ -21,9 +21,8 @@
 
 .event-image {
     width: 100%;
-    height: 200px;
+    height: 100%;
     object-fit: cover;
-    border-bottom: 1px solid #ddd;
 }
 
 .card-content {
@@ -40,6 +39,7 @@ h3 {
 .rsvp-button {
     width: 100%;
     padding: 10px;
+    margin-bottom: 5px;
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -97,4 +97,24 @@ h3 {
 
 .modal-content button:hover {
     background-color: #0056b3;
+}
+
+.edit-button,
+.delete-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.card-actions {
+    display: flex;
+    gap: 30px;
+    /* Adds spacing between buttons */
+    margin-top: 10px;
+    margin-bottom: 10px;
+    justify-content: center;
+    /* Horizontally centers the buttons */
+    align-items: center;
 }
