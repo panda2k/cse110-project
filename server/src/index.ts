@@ -1,21 +1,26 @@
-import express from "express";
-import 'dotenv/config';
-import { userRoutes } from "./routes/users";
-import { eventRoutes } from "./routes/events";
-import { rsvpRoutes } from "./routes/rsvp";
+import express from 'express';
+import 'dotenv/config'; // Automatically loads environment variables from .env file
+import cors from 'cors';
+import { userRoutes } from './routes/users';
+import authRoutes from './routes/auth';
+import { messageRoutes } from "./routes/messages";
 
-const cors = require("cors");
-
-const port = 3000;
+const PORT = process.env.PORT || 8080; // Default to port 8080 if not specified in .env
 const app = express();
-app.use(cors());
 
-app.listen(port, () => {
-    console.log(`[server]: Server is running at http://localhost:${port}`);
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Routes
+app.use('/users', userRoutes);
+app.use('/api/auth', authRoutes);
+app.use("/messages", messageRoutes);
+
+// Start the server
+const server = app.listen(PORT, () => {
+  console.log(`[server]: Server is running at http://localhost:${PORT}`);
 });
 
-app.use(express.json());
-app.use("/users", userRoutes);
-app.use("/events", eventRoutes);
-app.use("/rsvp", rsvpRoutes);
-
+// Export app and server for testing or other purposes
+export { app, server };
