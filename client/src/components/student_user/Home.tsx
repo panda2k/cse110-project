@@ -151,13 +151,6 @@ export const Home = () => {
                 />
             </div>
 
-            <Sidebar
-                isOpen={isSidebarOpen}
-                toggleSidebar={toggleSidebar}
-                selectedEvents={selectedEvents}
-                removeEventFromSidebar={removeEventFromSidebar}
-                rsvpStatus={rsvpStatus}
-            />
         </div>
     );
 };

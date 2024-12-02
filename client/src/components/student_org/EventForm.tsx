@@ -126,7 +126,7 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
                 const data = await response.json();
                 alert(data.message);
                 onAddEvent(eventData);
-                // window.location.reload();
+                window.location.reload();
             } else {
                 const errorData = await response.json();
                 alert("Error: " + errorData.error);
