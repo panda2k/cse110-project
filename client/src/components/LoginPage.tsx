@@ -6,6 +6,7 @@ import TapeBottomLeft from '../assets/Tape_bot_left.png';
 import TapeBottomRight from '../assets/Tape_bot_right.png';
 import LogoHB2 from '../assets/LogoHB2.webp';
 import { AuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
   const [view, setView] = useState('main');
@@ -15,13 +16,9 @@ const LoginPage: React.FC = () => {
   const [selectedType, setSelectedType] = useState<'student' | 'organization'>('student'); // Default to 'student'
 
   const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleSignup = async () => {
-    console.log("Sign Up button clicked");
-    console.log("Username:", username);
-    console.log("Password:", password);
-    console.log("Selected Type:", selectedType);
-
     try {
       const response = await fetch('http://localhost:8080/api/auth/signup', {
         method: 'POST',
@@ -29,18 +26,17 @@ const LoginPage: React.FC = () => {
         body: JSON.stringify({ username, password, type: selectedType }),
       });
 
-      console.log("Request sent to server");
-
       const data = await response.json();
-      console.log("Server Response:", data);
 
       if (response.ok) {
         login(data.token);
-        alert("Signup successful!");
-        // Optionally, log the user in automatically after signup
-        // Redirect or update UI as needed
+        // Redirect based on user type after signup
+        if (selectedType === 'student') {
+          navigate('/user-homepage');
+        } else {
+          navigate('/club-page');
+        }
       } else {
-        console.error("Signup failed:", data.message);
         setErrorMessage(data.message || "Signup failed.");
       }
     } catch (error) {
@@ -50,10 +46,6 @@ const LoginPage: React.FC = () => {
   };
 
   const handleLogin = async () => {
-    console.log("Log In button clicked");
-    console.log("Username:", username);
-    console.log("Password:", password);
-
     try {
       const response = await fetch('http://localhost:8080/api/auth/login', {
         method: 'POST',
@@ -64,9 +56,13 @@ const LoginPage: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert('Login successful!');
-        login(data.token); // Update auth context with the token
-        // Redirect or update UI as needed
+        login(data.token);
+        // Redirect based on user type
+        if (data.userType === 'student') {
+          navigate('/user-homepage');
+        } else {
+          navigate('/club-page');
+        }
       } else {
         setErrorMessage(data.message || 'Login failed.');
       }
@@ -89,10 +85,13 @@ const LoginPage: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // Optionally, log the user in automatically after signup
         login(data.token);
-        alert('Signup successful!');
-        // Redirect or update UI as needed
+        // Redirect based on user type after Google signup
+        if (selectedType === 'student') {
+          navigate('/user-homepage');
+        } else {
+          navigate('/club-page');
+        }
       } else {
         setErrorMessage(data.message || 'Signup failed.');
       }
@@ -115,9 +114,13 @@ const LoginPage: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        login(data.token); // Update auth context with the token
-        alert('Login successful!');
-        // Redirect or update UI as needed
+        login(data.token);
+        // Redirect based on user type
+        if (data.userType === 'student') {
+          navigate('/user-homepage');
+        } else {
+          navigate('/club-page');
+        }
       } else {
         setErrorMessage(data.message || 'Login failed.');
       }
@@ -164,7 +167,7 @@ const LoginPage: React.FC = () => {
       <button style={styles.button} onClick={handleLogin}>Log In</button>
       <p style={styles.orText}>OR</p>
       <GoogleLoginButton accountType={selectedType} onSuccess={handleGoogleLogin} />
-      <button style={styles.button} onClick={() => setView('main')}>Back</button>
+      <button style={styles.backButton} onClick={() => setView('main')}>Back</button>
     </div>
   );
 
@@ -178,7 +181,7 @@ const LoginPage: React.FC = () => {
       <p style={styles.subtitle}>Are you a Student or an Organization?</p>
       <button style={styles.button} onClick={() => { setSelectedType('student'); setView('signupForm'); }}>Student</button>
       <button style={styles.button} onClick={() => { setSelectedType('organization'); setView('signupForm'); }}>Organization</button>
-      <button style={styles.button} onClick={() => setView('main')}>Back</button>
+      <button style={styles.backButton} onClick={() => setView('main')}>Back</button>
     </div>
   );
 
@@ -213,7 +216,7 @@ const LoginPage: React.FC = () => {
       <button style={styles.button} onClick={handleSignup}>Sign Up</button>
       <p style={styles.orText}>OR</p>
       <GoogleLoginButton accountType={selectedType} onSuccess={handleGoogleSignup} />
-      <button style={styles.button} onClick={() => setView('signupSelection')}>Back</button>
+      <button style={styles.backButton} onClick={() => setView('signupSelection')}>Back</button>
     </div>
   );
 
@@ -311,7 +314,17 @@ const styles: { [key: string]: CSSProperties } = {
     width: '150px',
     height: 'auto',
   },
-
+  backButton: {
+    width: '100%',
+    padding: '10px',
+    backgroundColor: '#FF8C00', // dark orange color
+    color: '#fff',
+    fontSize: '16px',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    marginTop: '10px',
+  },
 };
 
 export default LoginPage;
