@@ -10,7 +10,10 @@ export const events = sqliteTable("events", {
     title: text("title", { length: 255 }).notNull(),
     description: text("description", { length: 10000 }).notNull(),
     date: int("date", { mode: "timestamp" }).notNull(),
-    organizationId: text("organizationId", { length: 255 }).notNull()
+    organizationId: text("organizationId", { length: 255 }).notNull(),
+    image: text("image", {length: 10000}).notNull(),
+    tags: text("tags", {length: 1000})
+
 });
 
 export const students = sqliteTable('students', {
@@ -64,10 +67,7 @@ export const messageRelations = relations(messages, ({ one }) => ({
 }));
 
 
-    date: int("date", { mode: "timestamp" }).notNull(),
-    image: text("image", {length: 10000}).notNull(),
-    tags: text("tags", {length: 1000})
-})
+
 
 export const rsvp = sqliteTable("rsvp", {
     id: text("id", { length: 255 })
