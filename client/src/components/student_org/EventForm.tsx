@@ -36,8 +36,32 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
         const file = e.target.files?.[0];
         if (file) {
             const reader = new FileReader();
-            reader.onloadend = () => {
-                setImage(reader.result as string);
+            reader.onload = () => {
+                const img = new Image();
+                img.src = reader.result as string;
+
+                img.onload = () => {
+                    // Create a canvas element
+                    const canvas = document.createElement("canvas");
+                    const ctx = canvas.getContext("2d");
+
+                    // Set the desired width and height (e.g., 500px wide, proportional height)
+                    const maxWidth = 500; // Desired max width
+                    const scale = maxWidth / img.width;
+                    canvas.width = maxWidth;
+                    canvas.height = img.height * scale;
+
+                    // Draw the image onto the canvas
+                    if (ctx) {
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                        // Compress the image to 0.7 quality (70%)
+                        const compressedBase64 = canvas.toDataURL("image/jpeg", 0.7);
+
+                        // Set the compressed image string
+                        setImage(compressedBase64);
+                    }
+                };
             };
             reader.readAsDataURL(file);
         }
@@ -66,7 +90,7 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
             location: eventLocation,
             description: description,
             date: eventDate,
-            image,
+            image: image,
             url: url,
             orgID: user.id,
         };
@@ -94,7 +118,8 @@ const EventForm: React.FC<EventFormProps> = ({ onAddEvent }) => {
         try {
             const response = await fetch("http://localhost:8080/events/", {
                 method: "POST",
-                body: formData,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(eventData_json),
             });
 
             if (response.ok) {

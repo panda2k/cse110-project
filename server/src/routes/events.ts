@@ -16,35 +16,11 @@ const upload = multer();
 
 export const eventRoutes = Router();
 
-eventRoutes.post("", upload.any(), async (req, res) => {
-    try {
-        console.log("Request Body:", req.body);
-        console.log("Uploaded File:", req.file);
-        const formData = req.body;
-        await db.insert(events).values({
-            orgName: req.body.orgName,
-            title: req.body.title,
-            startTime: req.body.startTime,
-            endTime: req.body.endTime,
-            location: req.body.location,
-            description: req.body.description,
-            date: req.body.date,
-            url: req.body.url,
-            image: req.file?.path || null,
-            orgID: req.body.orgID
-        });
-        res.status(200).send({ message: "Event created successfully!" });
-    } catch (error) {
-        console.error("Error creating event:", error);
-        res.status(500).send({ error: "Failed to create event" });
-    }
-});
-
-// eventRoutes.post("", async (req: Request<{}, {}, { orgName: string, title: string, location: string, description: string, date: string, startTime: string, endTime: string, image: string, url: string, orgID: string }>, res) => {
+// eventRoutes.post("", upload.any(), async (req, res) => {
 //     try {
 //         console.log("Request Body:", req.body);
 //         console.log("Uploaded File:", req.file);
-
+//         const formData = req.body;
 //         await db.insert(events).values({
 //             orgName: req.body.orgName,
 //             title: req.body.title,
@@ -63,6 +39,30 @@ eventRoutes.post("", upload.any(), async (req, res) => {
 //         res.status(500).send({ error: "Failed to create event" });
 //     }
 // });
+
+eventRoutes.post("", async (req: Request<{}, {}, { orgName: string, title: string, location: string, description: string, date: string, startTime: string, endTime: string, image: string, url: string, orgID: string }>, res) => {
+    try {
+        console.log("Request Body:", req.body);
+        console.log("Uploaded File:", req.file);
+
+        await db.insert(events).values({
+            orgName: req.body.orgName,
+            title: req.body.title,
+            startTime: req.body.startTime,
+            endTime: req.body.endTime,
+            location: req.body.location,
+            description: req.body.description,
+            date: req.body.date,
+            url: req.body.url,
+            image: req.body.image,
+            orgID: req.body.orgID
+        });
+        res.status(200).send({ message: "Event created successfully!" });
+    } catch (error) {
+        console.error("Error creating event:", error);
+        res.status(500).send({ error: "Failed to create event" });
+    }
+});
 
 /**
  * GET: Retrieve all events
@@ -86,7 +86,7 @@ eventRoutes.get("/:orgID", async (req, res) => {
         const eventsByOrgID = await db.select().from(events).where(eq(events.orgID, orgID)).orderBy(desc(events.date));
 
         // Return the filtered events
-        res.json(eventsByOrgID); // This is the final response, return it here
+        res.json(eventsByOrgID);
     } catch (error) {
         console.error("Error retrieving events:", error);
         // Ensure that an error response is sent only once
@@ -138,27 +138,6 @@ eventRoutes.delete("/:eventId", async (req: Request<{ eventId: string }>, res) =
         }
 
         await db.delete(events).where(eq(events.id, eventId));
-
-        res.status(200).send({ message: "Event deleted successfully!" });
-    } catch (error) {
-        console.error("Error deleting event:", error);
-        res.status(500).send({ error: "Failed to delete event" });
-    }
-});
-
-eventRoutes.delete("/name/:eventName", async (req: Request<{ eventName: string }>, res) => {
-    const { eventName } = req.params;
-
-    try {
-        // Check if the event with the given name exists
-        const event = await db.select().from(events).where(eq(events.title, eventName));
-        if (event.length === 0) {
-            res.status(404).send({ error: "Event not found" });
-            return;
-        }
-
-        // Delete the event by event name
-        await db.delete(events).where(eq(events.title, eventName));
 
         res.status(200).send({ message: "Event deleted successfully!" });
     } catch (error) {

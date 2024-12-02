@@ -25,7 +25,7 @@ export const fetchEvents = async (): Promise<Event[]> => {
 
 export const fetchEventsByID = async (orgID: string): Promise<Event[]> => {
     try {
-        const orgIDStr = orgID;
+        const orgIDStr = orgID + ".0";
         const response = await fetch(`http://localhost:8080/events/${orgIDStr}`);
 
         if (!response.ok) {
