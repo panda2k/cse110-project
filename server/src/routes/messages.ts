@@ -37,7 +37,7 @@ messageRoutes.get("/:userType/:id", async (req: Request<{ id: string, userType: 
     const conversations: Conversation[] = Object.entries(items)
         .map(([otherParticipantId, messages]) => ({ otherParticipant: otherParticipants[otherParticipantId] as Conversation["otherParticipant"], messages }))
         .sort((a, b) => +b.messages[0].date - +a.messages[0].date);
- 
+
     res.json(conversations);
     return;
 });

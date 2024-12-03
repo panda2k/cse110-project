@@ -1,0 +1,74 @@
+/* Sidebar styles */
+.sidebar {
+    background-color: #f9f9f9;
+    /* Light background for contrast */
+    width: 300px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    color: black;
+    /* Ensure all text is black */
+}
+
+.sidebar.open {
+    transform: translateX(0);
+}
+
+.close-button {
+    background: transparent;
+    border: none;
+    color: black;
+    /* Button text color */
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px;
+    text-align: left;
+}
+
+h2,
+h3,
+p {
+    color: black;
+    /* Text in headings and paragraphs */
+    margin: 10px 0;
+}
+
+.selected-event-card {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+.selected-event-card h3 {
+    font-size: 18px;
+    margin: 5px 0;
+    color: black;
+    /* Event name */
+}
+
+.selected-event-card p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: black;
+    /* Event details */
+}
+
+.selected-event-card button {
+    background-color: #ff4d4d;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.selected-event-card button:hover {
+    background-color: #cc0000;
+}

@@ -9,7 +9,7 @@ import { AuthProvider } from '../context/AuthContext';
 
 function App() {
   return (
-    <GoogleOAuthProvider clientId="409242628246-5miauio66oad9ltrr3lb17gbb0r9m04i.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId="281005346216-595e2iv07jrpjkshv6j0stmhnfj1rqh5.apps.googleusercontent.com">
       <AuthProvider>
         <div className="App">
           <header className="App-header">
@@ -29,3 +29,13 @@ function App() {
 }
 
 export default App;
+
+// import React from 'react';
+// import UserHomepage from './student_user/UserHomepage';
+// import ClubPage from './student_org/ClubPage';
+
+// function App() {
+//   return <UserHomepage />;
+// }
+
+// export default App;

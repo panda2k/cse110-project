@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "68aae2e6-a53b-4396-a632-21f82d28fd69",
-  "prevId": "d35e5ebc-1a59-4ed0-941b-f496ec920ea4",
+  "id": "74cb4727-14e8-473b-b532-2dd560cc9cab",
+  "prevId": "85238ea2-2803-454f-99d3-39cb4a1a992a",
   "tables": {
     "events": {
       "name": "events",
@@ -21,6 +21,20 @@
           "notNull": true,
           "autoincrement": false
         },
+        "startTime": {
+          "name": "startTime",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "endTime": {
+          "name": "endTime",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "description": {
           "name": "description",
           "type": "text(10000)",
@@ -30,16 +44,30 @@
         },
         "date": {
           "name": "date",
-          "type": "integer",
+          "type": "text(255)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "organizationId": {
-          "name": "organizationId",
-          "type": "text(255)",
+        "location": {
+          "name": "location",
+          "type": "text(5000)",
           "primaryKey": false,
           "notNull": true,
+          "autoincrement": false
+        },
+        "image": {
+          "name": "image",
+          "type": "text(5000)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "url": {
+          "name": "url",
+          "type": "text(500)",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         }
       },
@@ -223,6 +251,37 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
+    },
+    "user_events": {
+      "name": "user_events",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text(255)",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "eventId": {
+          "name": "eventId",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
     }
   },
   "views": {},
@@ -230,9 +289,7 @@
   "_meta": {
     "schemas": {},
     "tables": {},
-    "columns": {
-      "\"messages\".\"authorId\"": "\"messages\".\"author\""
-    }
+    "columns": {}
   },
   "internal": {
     "indexes": {}

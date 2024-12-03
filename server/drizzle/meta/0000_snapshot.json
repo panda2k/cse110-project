@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "e14484cf-52b6-4d1f-bc42-487f8843e68f",
+  "id": "c70e9954-2f3b-4033-a19a-1214bfd7461b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "events": {
@@ -21,6 +21,13 @@
           "notNull": true,
           "autoincrement": false
         },
+        "time": {
+          "name": "time",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "description": {
           "name": "description",
           "type": "text(10000)",
@@ -30,14 +37,14 @@
         },
         "date": {
           "name": "date",
-          "type": "integer",
+          "type": "text(255)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "organizationId": {
-          "name": "organizationId",
-          "type": "text(255)",
+        "location": {
+          "name": "location",
+          "type": "text(5000)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -84,6 +91,13 @@
         "organizationId": {
           "name": "organizationId",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "author": {
+          "name": "author",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -213,6 +227,64 @@
         }
       },
       "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "user_events": {
+      "name": "user_events",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text(255)",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "eventId": {
+          "name": "eventId",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_events_userId_students_id_fk": {
+          "name": "user_events_userId_students_id_fk",
+          "tableFrom": "user_events",
+          "tableTo": "students",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "user_events_eventId_events_id_fk": {
+          "name": "user_events_eventId_events_id_fk",
+          "tableFrom": "user_events",
+          "tableTo": "events",
+          "columnsFrom": [
+            "eventId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}

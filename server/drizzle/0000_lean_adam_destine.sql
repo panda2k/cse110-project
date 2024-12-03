@@ -1,9 +1,10 @@
 CREATE TABLE `events` (
 	`id` text(255) PRIMARY KEY NOT NULL,
 	`title` text(255) NOT NULL,
+	`time` text(255) NOT NULL,
 	`description` text(10000) NOT NULL,
-	`date` integer NOT NULL,
-	`organizationId` text(255) NOT NULL
+	`date` text(255) NOT NULL,
+	`location` text(5000) NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE `messages` (
@@ -11,7 +12,8 @@ CREATE TABLE `messages` (
 	`content` text(10000) NOT NULL,
 	`date` integer DEFAULT (current_timestamp) NOT NULL,
 	`studentId` integer NOT NULL,
-	`organizationId` integer NOT NULL
+	`organizationId` integer NOT NULL,
+	`author` text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE `organizations` (
@@ -33,4 +35,11 @@ CREATE TABLE `students` (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `students_username_unique` ON `students` (`username`);--> statement-breakpoint
-CREATE UNIQUE INDEX `students_google_id_unique` ON `students` (`google_id`);
+CREATE UNIQUE INDEX `students_google_id_unique` ON `students` (`google_id`);--> statement-breakpoint
+CREATE TABLE `user_events` (
+	`id` text(255) PRIMARY KEY NOT NULL,
+	`userId` integer NOT NULL,
+	`eventId` text(255) NOT NULL,
+	FOREIGN KEY (`userId`) REFERENCES `students`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`eventId`) REFERENCES `events`(`id`) ON UPDATE no action ON DELETE cascade
+);

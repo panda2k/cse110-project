@@ -1,0 +1,1 @@
+ALTER TABLE `events` ADD `orgID` text(255) NOT NULL;

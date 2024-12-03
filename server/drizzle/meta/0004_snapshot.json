@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "85238ea2-2803-454f-99d3-39cb4a1a992a",
-  "prevId": "c70e9954-2f3b-4033-a19a-1214bfd7461b",
+  "id": "3519455c-7e4e-4cda-b0a1-3be62b579fc4",
+  "prevId": "b8576f2d-3494-4b11-841a-c53b2396a2b9",
   "tables": {
     "events": {
       "name": "events",
@@ -21,8 +21,15 @@
           "notNull": true,
           "autoincrement": false
         },
-        "time": {
-          "name": "time",
+        "startTime": {
+          "name": "startTime",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "endTime": {
+          "name": "endTime",
           "type": "text(255)",
           "primaryKey": false,
           "notNull": true,
@@ -45,6 +52,27 @@
         "location": {
           "name": "location",
           "type": "text(5000)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "image": {
+          "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "url": {
+          "name": "url",
+          "type": "text(500)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "orgID": {
+          "name": "orgID",
+          "type": "text(255)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
