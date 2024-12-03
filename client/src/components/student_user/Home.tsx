@@ -4,6 +4,8 @@ import "../../styles/Home.css";
 import EventCardList from "./EventsCardList";
 import Sidebar from "./Sidebar";
 import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { googleLogout } from "@react-oauth/google";
 
 export const Home = () => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -11,6 +13,10 @@ export const Home = () => {
     const [rsvpStatus, setRsvpStatus] = useState<{ [key: string]: boolean }>({});
     const [welcomePopup, setWelcomePopup] = useState(false);
     const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
+
+    // boolean for displaying account options
+    const [accMenu, setAccMenu] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const { user } = useContext(AuthContext);
 
@@ -138,8 +144,12 @@ export const Home = () => {
                     <li><a href="/user-explore">EXPLORE</a></li>
                     <li><a href="/upcoming">UPCOMING</a></li>
                 </ul>
-                <button className="Message-button">
+                <button className="Message-button" onClick={() => setAccMenu(!accMenu)}>
                 </button>
+                { accMenu ? <div className="acc-menu">
+                    <button onClick={() => navigate("/messages")}>Messages</button>
+                    <button onClick={() => {googleLogout(); navigate("/")}}>Logout</button>
+                    </div> : null}
             </header>
 
             <div className="body">

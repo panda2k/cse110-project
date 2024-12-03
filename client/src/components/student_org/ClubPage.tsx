@@ -4,6 +4,8 @@ import MyEventsList from './MyEventsList';
 import EventForm from './EventForm';
 import { fetchEventsByID } from '../../utils/event-utils'; // Import the fetchEvents method
 import { AuthContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { googleLogout } from '@react-oauth/google';
 
 interface Event {
     eventID?: string;
@@ -23,6 +25,9 @@ const ClubPage: React.FC = () => {
     const { user } = useContext(AuthContext);
     console.log(user);
     const [events, setEvents] = useState<Event[]>([]);
+
+    const [accMenu, setAccMenu] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     // Fetch events from the API when the component mounts
     useEffect(() => {
@@ -80,8 +85,12 @@ const ClubPage: React.FC = () => {
                     <li><a href="/club-page">DASHBOARD</a></li>
                     <li><a href="/explore">EXPLORE</a></li>
                 </ul>
-                <button className="Message-button">
+                <button className="Message-button" onClick={() => setAccMenu(!accMenu)}>
                 </button>
+                { accMenu ? <div className="acc-menu">
+                    <button onClick={() => navigate("/messages")}>Messages</button>
+                    <button onClick={() => {googleLogout(); navigate("/")}}> Logout </button>
+                    </div> : null}
             </header>
             {/* <div style={{ flex: '1', marginRight: '20px' }}>
                 <h1>Event Management</h1>

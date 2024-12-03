@@ -3,6 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import { Conversation, UserType } from "../types/types";
 import { getMessages, sendMessage } from "../utils";
 import "./MessageList.css"
+import { useNavigate } from "react-router-dom";
 
 const getInitials = (name: string) => {
     return name.split(" ").map(s => s.charAt(0)).join("");
@@ -12,6 +13,8 @@ export default function MessageList() {
     const [conversations, setConversations] = useState<Conversation[]>([]);
     const [currentConversation, setCurrentConversation] = useState<number>(-1);
     const { user } = useContext(AuthContext);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const interval = setInterval(async () => {
@@ -98,6 +101,9 @@ export default function MessageList() {
                                 ) : <div className="info-message">{conversations.length ? "Select a conversation first" : "No conversations yet"}</div>}
                             </div>
                         </div>
+                        <button className="back-button" onClick={()=> navigate("/user-homepage")}>
+                            <i className="material-icons">arrow_back</i>
+                        </button>
                     </>
                     :
                     <div>
