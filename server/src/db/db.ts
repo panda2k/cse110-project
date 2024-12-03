@@ -1,5 +1,6 @@
 import { createClient } from '@libsql/client';
 import { drizzle } from 'drizzle-orm/libsql';
+import { migrate } from 'drizzle-orm/libsql/migrator';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -40,3 +41,10 @@ export const initDatabase = async () => {
 
   console.log('Database initialized and tables ensured.');
 };
+
+// Add this migration code
+async function runMigrations() {
+    await migrate(drizzleDb, { migrationsFolder: './drizzle' });
+}
+
+runMigrations().catch(console.error);

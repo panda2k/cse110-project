@@ -2,6 +2,7 @@ import { Request, Router } from "express";
 import { drizzleDb as db } from "../db/db";
 import { events, userEvents } from "../db/schema";
 import { desc, eq, InferSelectModel } from "drizzle-orm";
+import crypto from "crypto";
 // import "multer";
 // import path from "path";
 

@@ -1,5 +1,6 @@
 import { relations, sql } from "drizzle-orm";
 import { sqliteTable, integer, text, int } from 'drizzle-orm/sqlite-core';
+import crypto from 'crypto';
 
 export const events = sqliteTable("events", {
     id: text("id", { length: 255 })
