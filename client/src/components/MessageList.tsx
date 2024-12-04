@@ -21,7 +21,6 @@ export default function MessageList() {
             if (user) {
                 setConversations(await getMessages(user.type, user.id));
             }
-            //setConversations(conversations);
         }, 1000)
         return () => clearInterval(interval);
     }, [setConversations, user]);
@@ -56,7 +55,7 @@ export default function MessageList() {
                     <>
                         <div className="container">
                             <div className="user-list">
-                                {!conversations.length && <div className="no-conversations">No conversations yet</div>}
+                                {!conversations.length && <div data-testid="no-conversations" className="no-conversations">No conversations yet</div>}
                                 {conversations.map(({ otherParticipant, messages }) => (
                                     <div key={otherParticipant.id} onClick={() => setCurrentConversation(otherParticipant.id)}>
                                         <div className="picture">
@@ -92,16 +91,16 @@ export default function MessageList() {
                                         <form className="send-message" onSubmit={onFormSubmit}>
                                             <div>
                                                 <input id="content" type="text" placeholder="Message here..." />
-                                                <button type="submit">
+                                                <button type="submit" data-testid="send-message">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-send-horizontal"><path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z" /><path d="M6 12h16" /></svg>
                                                 </button>
                                             </div>
                                         </form>
                                     </>
-                                ) : <div className="info-message">{conversations.length ? "Select a conversation first" : "No conversations yet"}</div>}
+                                ) : <div data-testid="info-message" className="info-message">{conversations.length ? "Select a conversation first" : "No conversations yet"}</div>}
                             </div>
                         </div>
-                        <button className="back-button" onClick={()=> navigate("/user-homepage")}>
+                        <button className="back-button" onClick={() => navigate("/user-homepage")}>
                             <i className="material-icons">arrow_back</i>
                         </button>
                     </>
