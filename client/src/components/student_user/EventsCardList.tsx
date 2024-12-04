@@ -4,7 +4,7 @@ import { fetchEvents } from '../../utils/event-utils';
 import { AuthContext } from '../../context/AuthContext';
 import CompactEventCardContainer from './CompactEventCardContainer';
 
-interface Event {
+export interface Event {
     orgName: string;
     eventID?: string;
     eventName: string;

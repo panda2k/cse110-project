@@ -1,4 +1,4 @@
-import { Event } from "./TestEvents";
+import { Event } from "./EventsCardList";
 import GCB from '../assets/GCB.png';
 
 function GoogleCalendarInt(event: Event) {
@@ -38,16 +38,6 @@ function GoogleCalendarInt(event: Event) {
             <button><img src={GCB}></img> </button>
             </a>
        </div>
-        /* <div>
-       {testEventsList.map((event) => (
-         <div>
-            <p>{event.eventName}</p>
-           <a href={genLink(event)} target="_blank">
-            <button><img src={GCB}></img> </button>
-            </a>
-         </div>
-       ))}
-     </div>*/
 
     );
 };
