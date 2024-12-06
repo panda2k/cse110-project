@@ -31,7 +31,6 @@ export default function MessageList() {
         const formElements = form.elements as typeof form.elements & {
             content: { value: string }
         }
-        const userId = user.id;
         const studentId = user.type === UserType.STUDENT ? user.id : currentConversation;
         const organizationId = user.type === UserType.STUDENT ? currentConversation : user.id;
         sendMessage(user.type, studentId, organizationId, formElements.content.value);

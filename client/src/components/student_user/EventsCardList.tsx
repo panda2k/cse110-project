@@ -1,8 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, SyntheticEvent } from 'react';
 import '../../styles/EventsCardList.css';
 import { fetchEvents } from '../../utils/event-utils';
 import { AuthContext } from '../../context/AuthContext';
 import CompactEventCardContainer from './CompactEventCardContainer';
+import { sendMessage } from '../../utils';
 
 export interface Event {
     orgName: string;
@@ -36,6 +37,7 @@ const EventCardList: React.FC<EventCardListProps> = ({ addEventToSidebar, remove
                 const eventsData = await fetchEvents();
                 const transformedEvents: Event[] = eventsData.map((item: any) => ({
                     orgName: item.orgName,
+                    orgID: item.orgID,
                     eventID: item.id,
                     eventName: item.title,
                     eventStartTime: item.startTime,
@@ -101,6 +103,18 @@ const EventCardList: React.FC<EventCardListProps> = ({ addEventToSidebar, remove
         setIsModalOpen(false);
     };
 
+    const onFormSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const formElements = form.elements as typeof form.elements & {
+            content: { value: string }
+        }
+        const studentId = user.id;
+        const organizationId = Number(selectedEvent?.orgID);
+        console.log(selectedEvent)
+        sendMessage(user.type, studentId, organizationId, formElements.content.value);
+        formElements.content.value = "";
+    }
     return (
         <div>
             <div className="event-card-list">
@@ -138,7 +152,14 @@ const EventCardList: React.FC<EventCardListProps> = ({ addEventToSidebar, remove
                         >
                             {rsvpStatus[selectedEvent.eventName] ? 'Un-RSVP' : 'RSVP'}
                         </button>
-
+                        <form className="send-message" onSubmit={onFormSubmit}>
+                            <div>
+                                <input id="content" type="text" placeholder="Send a question to the organizers!" />
+                                <button type="submit" data-testid="send-message">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-send-horizontal"><path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z" /><path d="M6 12h16" /></svg>
+                                </button>
+                            </div>
+                        </form>
                         <button onClick={closeModal}>Close</button>
                     </div>
                 </div>

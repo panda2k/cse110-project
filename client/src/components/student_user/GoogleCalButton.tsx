@@ -1,5 +1,5 @@
 import { Event } from "./EventsCardList";
-import GCB from '../assets/GCB.png';
+import GCB from '../..//assets/GCB.png';
 
 function GoogleCalendarInt(event: Event) {
     const getPSV = (x: string) => {
@@ -23,7 +23,7 @@ function GoogleCalendarInt(event: Event) {
 
     const genLink = (flyer: Event) => {
         //link base
-        const link = "https://calendar.google.com/calendar/u/0/r/eventedit?"; 
+        const link = "https://calendar.google.com/calendar/u/0/r/eventedit?";
         const tz = "ctz=America/Los_Angeles"
         const name = "text=" + getPSV(flyer.eventName) + "&";
         const loc = "location=" + getPSV(flyer.eventLocation) + "&";
@@ -33,11 +33,11 @@ function GoogleCalendarInt(event: Event) {
     }
 
     return (
-       <div> 
-        <a href={genLink(event)} target="_blank">
-            <button><img src={GCB}></img> </button>
+        <div>
+            <a href={genLink(event)} target="_blank">
+                <button><img src={GCB}></img> </button>
             </a>
-       </div>
+        </div>
 
     );
 };

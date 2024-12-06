@@ -9,7 +9,7 @@ import { AuthProvider } from '../context/AuthContext';
 
 function App() {
   return (
-    <GoogleOAuthProvider clientId="13226764250-8g81qvlopci11n2d5gs48n0beie1iqkb.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId="409242628246-5miauio66oad9ltrr3lb17gbb0r9m04i.apps.googleusercontent.com">
       <AuthProvider>
         <div className="App">
           <Routes>
