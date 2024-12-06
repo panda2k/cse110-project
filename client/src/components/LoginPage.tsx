@@ -116,7 +116,7 @@ const LoginPage: React.FC = () => {
       if (response.ok) {
         login(data.token);
         // Redirect based on user type
-        if (data.userType === 'student') {
+        if (selectedType === 'student') {
           navigate('/user-homepage');
         } else {
           navigate('/club-page');
@@ -137,8 +137,22 @@ const LoginPage: React.FC = () => {
       <img src={TapeBottomLeft} alt="Tape bottom left" style={styles.tapeBottomLeft} />
       <img src={TapeBottomRight} alt="Tape bottom right" style={styles.tapeBottomRight} />
       <h2 style={styles.title}>Welcome!</h2>
-      <button style={styles.button} onClick={() => setView('login')}>Log In</button>
+      <button style={styles.button} onClick={() => setView('loginSelection')}>Log In</button>
       <button style={styles.button} onClick={() => setView('signupSelection')}>Sign Up</button>
+    </div>
+  );
+
+  const renderLoginSelection = () => (
+    <div style={styles.paper}>
+      <img src={TapeTopLeft} alt="Tape top left" style={styles.tapeTopLeft} />
+      <img src={TapeTopRight} alt="Tape top right" style={styles.tapeTopRight} />
+      <img src={TapeBottomLeft} alt="Tape bottom left" style={styles.tapeBottomLeft} />
+      <img src={TapeBottomRight} alt="Tape bottom right" style={styles.tapeBottomRight} />
+      <h2 style={styles.title}>Login</h2>
+      <p style={styles.subtitle}>Are you a Student or an Organization?</p>
+      <button style={styles.button} onClick={() => { setSelectedType('student'); setView('login'); }}>Student</button>
+      <button style={styles.button} onClick={() => { setSelectedType('organization'); setView('login'); }}>Organization</button>
+      <button style={styles.backButton} onClick={() => setView('main')}>Back</button>
     </div>
   );
 
@@ -224,6 +238,7 @@ const LoginPage: React.FC = () => {
     <div style={styles.background}>
       {view === 'main' && renderMainOptions()}
       {view === 'login' && renderLoginForm()}
+      {view === 'loginSelection' && renderLoginSelection()}
       {view === 'signupSelection' && renderSignupSelection()}
       {view === 'signupForm' && renderSignUpForm()}
     </div>

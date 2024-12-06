@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import "../../styles/App.css";
 import "../../styles/Home.css";
 import { AuthContext } from "../../context/AuthContext";
+import GoogleCalendarInt from "./GoogleCalButton";
 
 const Upcoming = () => {
     const [selectedEvents, setSelectedEvents] = useState<any[]>([]);
@@ -60,6 +61,7 @@ const Upcoming = () => {
                                 <p><b>Date:</b> {event.eventDate}</p>
                                 <p><b>Time:</b> {event.eventStartTime} - {event.eventEndTime}</p>
                                 <p><b>Location:</b> {event.eventLocation}</p>
+                                <GoogleCalendarInt orgName={event.orgName} eventName={event.EventName} eventStartTime={event.eventStartTime} eventEndTime={event.eventEndTime} eventDate={event.eventDate} eventLocation={event.eventLocation} description={event.description}/>
                             </div>
                         ))
                     ) : (

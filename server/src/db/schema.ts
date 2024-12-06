@@ -1,12 +1,12 @@
 import { relations, sql } from "drizzle-orm";
 import { sqliteTable, integer, text, int } from 'drizzle-orm/sqlite-core';
-import crypto from 'crypto';
+import { randomUUID } from "crypto";
 
 export const events = sqliteTable("events", {
     id: text("id", { length: 255 })
         .notNull()
         .primaryKey()
-        .$defaultFn(() => crypto.randomUUID()),
+        .$defaultFn(() => randomUUID()),
     orgName: text("orgName", { length: 255 }).notNull(),
     title: text("title", { length: 255 }).notNull(),
     startTime: text("startTime", { length: 255 }).notNull(),
@@ -24,7 +24,7 @@ export const userEvents = sqliteTable("user_events", {
     id: text("id", { length: 255 })
         .notNull()
         .primaryKey()
-        .$defaultFn(() => crypto.randomUUID()),
+        .$defaultFn(() => randomUUID()),
     userId: integer("userId").notNull(),
     eventId: text("eventId", { length: 255 }).notNull(),
 });
@@ -59,7 +59,7 @@ export const messages = sqliteTable("messages", {
     id: text("id", { length: 255 })
         .notNull()
         .primaryKey()
-        .$defaultFn(() => crypto.randomUUID()),
+        .$defaultFn(() => randomUUID()),
     content: text("content", { length: 10000 }).notNull(),
     date: int("date", { mode: "timestamp" })
         .notNull()

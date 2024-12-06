@@ -57,7 +57,33 @@ rsvpRoutes.delete("/", async (req: Request<{}, {}, { userId: string; eventId: st
     }
 });
 
-// Get upcoming events for a user
+// Check if rsvp exists for an event user pair
+rsvpRoutes.get("/queryElement/:eventId/:userId", async (req, res) => {
+    try {
+        const eventId = req.params.eventId;
+        const userId = req.params.userId;
+
+        // Fetch all specific event for user and event.
+        const upcomingEvents = await db.select()
+            .from(userEvents)
+            .where(
+                and(
+                    eq(userEvents.userId, Number(userId)),
+                    eq(userEvents.eventId, eventId)
+                )
+            );
+
+        if (upcomingEvents.length === 0) {
+            res.json({});
+        } else {
+            res.json(upcomingEvents[0]);
+        }
+    } catch (error) {
+        console.error("Error fetching rsvp user pair:", error);
+        res.status(500).send({ error: "Failed to fetch rsvp" });
+    }
+});
+
 rsvpRoutes.get("/upcoming/:userId", async (req, res) => {
     try {
         const userId = req.params.userId;
@@ -68,6 +94,7 @@ rsvpRoutes.get("/upcoming/:userId", async (req, res) => {
             .innerJoin(userEvents, eq(events.id, userEvents.eventId))
             .where(eq(userEvents.userId, Number(userId)))
             .orderBy(desc(events.date)); // Sort by date
+
 
         res.json(upcomingEvents);
     } catch (error) {

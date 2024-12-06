@@ -20,7 +20,6 @@ export const eventRoutes = Router();
 eventRoutes.post("", async (req: Request<{}, {}, { orgName: string, title: string, location: string, description: string, date: string, startTime: string, endTime: string, image: string, url: string, orgID: string }>, res) => {
     try {
         console.log("Request Body:", req.body);
-        console.log("Uploaded File:", req.file);
 
         await db.insert(events).values({
             orgName: req.body.orgName,

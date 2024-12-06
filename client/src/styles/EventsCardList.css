@@ -118,3 +118,34 @@ h3 {
     /* Horizontally centers the buttons */
     align-items: center;
 }
+
+.send-message {
+    margin-top: 16px;
+}
+
+.send-message > div {
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    background-color: #FFFFFF;
+}
+
+.send-message > div > input {
+    border: none;
+    flex-grow: 1;
+    height: 48px;
+    padding: 4px;
+    padding-left: 16px;
+}
+
+.send-message > div > input:focus {
+    outline: 0;
+}
+
+.send-message > div > button {
+    background-color: white;
+    border: none;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    padding: 16px;
+}
